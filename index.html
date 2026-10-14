@@ -45,12 +45,29 @@
 
 <main id="main"></main>
 
+<section class="wish" id="pedido"><div class="wrap">
+  <div class="wishbox">
+    <h2 data-i="wish"></h2>
+    <p data-i="wishp"></p>
+    <form id="wishform" novalidate>
+      <input id="wdesc" data-p="wdesc" maxlength="200" required>
+      <input id="wlink" data-p="wlink" type="url" inputmode="url" autocomplete="off">
+      <div class="two"><input id="wqty" data-p="wqty" type="number" min="1" inputmode="numeric"><input id="wemail" data-p="email" type="email" autocomplete="email" required></div>
+      <div class="two"><input id="wname" data-p="name" autocomplete="name"><input id="wphone" data-p="phone" inputmode="tel" autocomplete="tel"></div>
+      <textarea id="wnote" rows="2" data-p="wnote"></textarea>
+      <div class="acts"><button class="btn" type="submit" data-i="wsend"></button><button class="btn ghost" type="button" id="wwa">WhatsApp</button></div>
+      <p class="wdone" id="wdone" hidden data-i="wsent"></p>
+    </form>
+  </div>
+</div></section>
+
 <section class="faq" id="faq"><div class="wrap">
   <h2 data-i="faq"></h2>
   <details><summary data-i="q1"></summary><p data-i="a1"></p></details>
   <details><summary data-i="q2"></summary><p data-i="a2"></p></details>
   <details><summary data-i="q3"></summary><p data-i="a3"></p></details>
   <details><summary data-i="q4"></summary><p data-i="a4"></p></details>
+  <details><summary data-i="q5"></summary><p data-i="a5"></p></details>
 </div></section>
 
 <footer><div class="wrap">
@@ -66,10 +83,18 @@
     <header><h2 id="carttitle" data-i="cart">Carrito</h2><button class="x" id="closecart" aria-label="Cerrar / Close">×</button></header>
     <div class="lines" id="lines"></div>
     <form class="checkout" id="form">
+      <div class="notice"><strong data-i="preh"></strong><p data-i="prep"></p></div>
       <div class="sumrow"><span data-i="subtotal"></span><span id="subtotal">$0</span></div>
       <div class="sumrow" id="shiprow"><span data-i="shipping"></span><span id="ship">$0</span></div>
       <div class="total"><span data-i="total">Total</span><span id="total">$0</span></div>
+      <div class="deposit"><span data-i="deposit"></span><span id="deposit">$0</span></div>
+      <div class="sumrow"><span data-i="rest"></span><span id="rest">$0</span></div>
       <div class="two"><input id="name" data-p="name" autocomplete="name" required><input id="phone" data-p="phone" inputmode="tel" autocomplete="tel" required></div>
+      <input id="email" data-p="email" type="email" autocomplete="email" required>
+      <div class="opts" id="deliver" role="radiogroup">
+        <label><input type="radio" name="dl" value="pickup" checked><span data-i="pickup"></span></label>
+        <label><input type="radio" name="dl" value="mail"><span data-i="mailit"></span></label>
+      </div>
       <input id="city" data-p="city" autocomplete="address-level2">
       <select id="pay"><option value="Zelle">Zelle</option><option value="Cash App">Cash App</option><option value="Efectivo / Cash" data-i="cash"></option><option value="Tarjeta / Card" data-i="cardopt"></option></select>
       <textarea id="note" rows="2" data-p="note"></textarea>
@@ -77,6 +102,12 @@
       <div class="acts"><button class="btn ghost" type="button" id="mail" data-i="mail"></button><button class="btn ghost" type="button" id="copy" data-i="copy"></button></div>
       <div class="wa-line"><span data-i="orwa"></span><code id="wadisplay"></code></div>
     </form>
+    <div class="done" id="done" hidden>
+      <h3 data-i="sent"></h3>
+      <p id="donep"></p>
+      <p class="meta" data-i="sentwa"></p>
+      <div class="acts"><button class="btn ghost" type="button" id="copy2" data-i="copy"></button><button class="btn" type="button" id="again" data-i="again"></button></div>
+    </div>
   </aside>
 </div>
 

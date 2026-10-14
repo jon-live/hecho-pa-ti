@@ -26,6 +26,19 @@ window.HPT_CONFIG = {
   // Quince package price per guest (USD).
   quincePerGuest: 4,
 
+  // Pre-order model: customer pays this % now, the rest when the order arrives.
+  depositPercent: 10,
+  // Typical arrival window shown at checkout.
+  arrivalWeeks: "3–5",
+  // Pickup location (city is enough).
+  pickupPlace: "San José, CA",
+
+  // Optional: a form backend (Formspree, Basin, Web3Forms…) that receives
+  // orders and wishlist requests as JSON POST, so they land in your inbox
+  // automatically. Leave "" to rely on WhatsApp / email only.
+  // Example (Formspree): "https://formspree.io/f/abcdwxyz"
+  formEndpoint: "",
+
   // Instagram / TikTok handles (optional; leave "" to hide).
   instagram: "hechopati",
   tiktok: "hechopati",

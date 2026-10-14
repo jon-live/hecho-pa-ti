@@ -5,7 +5,7 @@
   let lang = "es", cart = {}, query = "";
 
   // ── i18n ────────────────────────────────────────────────────
-  const VARS = { shipFrom: CFG.shipFrom, d: CFG.stockDays, w: CFG.customWeeks, zelle: CFG.zelle, cashApp: CFG.cashApp, n: CFG.freeShipOver };
+  const VARS = { shipFrom: CFG.shipFrom, d: CFG.stockDays, w: CFG.customWeeks, zelle: CFG.zelle, cashApp: CFG.cashApp, n: CFG.freeShipOver, dp: CFG.depositPercent, aw: CFG.arrivalWeeks, pickup: CFG.pickupPlace };
   function t(k, extra) {
     let s = T[lang][k] ?? T.es[k] ?? k;
     const v = Object.assign({}, VARS, extra || {});
@@ -58,7 +58,7 @@
   }
 
   function renderCatalog() {
-    $("#catnav").innerHTML = CATS.map(c => `<a href="#${c.id}">${esc(c[lang][0])}</a>`).join("");
+    $("#catnav").innerHTML = CATS.map(c => `<a href="#${c.id}">${esc(c[lang][0])}</a>`).join("") + `<a href="#pedido">✦ ${esc(lang === "es" ? "Pídelo" : "Ask for it")}</a>`;
     let any = false;
     $("#main").innerHTML = CATS.map(c => {
       const items = c.items.map((_, i) => ITEMS[c.id + "-" + i]).filter(matches);
@@ -104,11 +104,14 @@
     const bits = [l.variant, l.perso].filter(Boolean);
     return bits.length ? `${base} (${bits.join(" · ")})` : base;
   }
+  const delivery = () => document.querySelector("input[name=dl]:checked")?.value || "pickup";
   function totals() {
     let sub = 0, qty = 0;
     Object.values(cart).forEach(l => { sub += l.price * l.q; qty += l.q; });
-    const ship = !CFG.shipping || sub === 0 || sub >= CFG.freeShipOver ? 0 : CFG.shipping;
-    return { sub, ship, total: sub + ship, qty };
+    const ship = delivery() === "pickup" || !CFG.shipping || sub === 0 || sub >= CFG.freeShipOver ? 0 : CFG.shipping;
+    const total = sub + ship;
+    const deposit = Math.ceil(total * CFG.depositPercent / 100);
+    return { sub, ship, total, deposit, rest: total - deposit, qty };
   }
   function renderCart() {
     const keys = Object.keys(cart);
@@ -122,8 +125,10 @@
     const s = totals();
     $("#subtotal").textContent = "$" + s.sub;
     $("#ship").textContent = s.ship ? "$" + s.ship : (s.sub ? t("free") : "—");
-    $("#shiprow").hidden = !CFG.shipping;
+    $("#shiprow").hidden = !CFG.shipping || delivery() === "pickup";
     $("#total").textContent = "$" + s.total;
+    $("#deposit").textContent = "$" + s.deposit;
+    $("#rest").textContent = "$" + s.rest;
     $("#count").textContent = s.qty;
   }
   function addLine(key, line, q) {
@@ -150,11 +155,25 @@
     const lines = Object.values(cart).map(l => `• ${lineLabel(l)} × ${l.q} = $${l.price * l.q}`);
     const out = [t("order"), ...lines, `${t("subtotal")}: $${s.sub}`];
     if (CFG.shipping) out.push(`${t("shipping")}: ${s.ship ? "$" + s.ship : t("free")}`);
-    out.push(`${t("total")}: $${s.total}`, "",
-      `${t("name")}: ${$("#name").value}`, `${t("phone")}: ${$("#phone").value}`, `${t("city")}: ${$("#city").value}`,
+    out.push(`${t("total")}: $${s.total}`,
+      `${t("deposit")}: $${s.deposit}`, `${t("rest")}: $${s.rest}`, "",
+      `${t("name")}: ${$("#name").value}`, `${t("phone")}: ${$("#phone").value}`, `${t("email")}: ${$("#email").value}`,
+      `${t("deliver")}: ${delivery() === "pickup" ? t("pickup") : t("mailit")}`, `${t("city")}: ${$("#city").value}`,
       `${t("pay")}: ${$("#pay").value}`, `${t("notes")}: ${$("#note").value}`);
     return out.join("\n");
   }
+  // Optional: POST to a form backend so orders / wishes land in the inbox automatically.
+  function postForm(payload) {
+    if (!CFG.formEndpoint) return Promise.resolve(false);
+    return fetch(CFG.formEndpoint, { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(payload) })
+      .then(r => r.ok).catch(() => false);
+  }
+  function showDone() {
+    const s = totals();
+    $("#donep").innerHTML = t("sentp", { amt: "$" + s.deposit });
+    $("#form").hidden = true; $("#lines").hidden = true; $("#done").hidden = false;
+  }
+  function resetDone() { $("#form").hidden = false; $("#lines").hidden = false; $("#done").hidden = true; }
   function toast(m) { const d = document.createElement("div"); d.className = "toast"; d.textContent = m; document.body.appendChild(d); setTimeout(() => d.remove(), 2400); }
   function openCart(o) { $("#cartroot").hidden = !o; if (o) $("#closecart").focus(); }
 
@@ -174,7 +193,9 @@
     if (b.id === "opencart") { openCart(true); return; }
     if (b.id === "closecart") { openCart(false); return; }
     if (b.dataset.d) { addLine(b.dataset.k, cart[b.dataset.k], +b.dataset.d); return; }
-    if (b.id === "copy") {
+    if (b.id === "again") { resetDone(); openCart(false); return; }
+    if (b.id === "wwa") { sendWish("wa"); return; }
+    if (b.id === "copy" || b.id === "copy2") {
       const txt = orderText();
       navigator.clipboard?.writeText(txt).then(() => toast(t("copied"))).catch(() => {
         const ta = document.createElement("textarea"); ta.value = txt; document.body.appendChild(ta); ta.select();
@@ -189,15 +210,40 @@
   });
   document.addEventListener("change", e => {
     if (e.target.name === "pk") $("#pkprice").textContent = "$" + (+e.target.value * CFG.quincePerGuest);
+    if (e.target.name === "dl") renderCart();
   });
   document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("#cartroot").hidden) openCart(false); });
   $("#scrim").addEventListener("click", () => openCart(false));
   $("#form").addEventListener("submit", e => {
     e.preventDefault();
     if (!Object.keys(cart).length) { toast(t("empty")); return; }
-    window.open("https://wa.me/" + CFG.whatsapp + "?text=" + encodeURIComponent(orderText()), "_blank", "noopener");
-    toast(t("thanks"));
+    if (!$("#form").reportValidity()) return;
+    const text = orderText();
+    window.open("https://wa.me/" + CFG.whatsapp + "?text=" + encodeURIComponent(text), "_blank", "noopener");
+    postForm({ type: "order", lang, email: $("#email").value, name: $("#name").value, phone: $("#phone").value, text, cart, totals: totals() });
+    showDone();
   });
+
+  // ── wishlist ("Pídelo") ─────────────────────────────────────
+  function wishText() {
+    return [lang === "es" ? "Petición Hecho Pa' Ti" : "Hecho Pa' Ti request",
+      `${t("wdesc").split(" (")[0]}: ${$("#wdesc").value.trim()}`,
+      `${t("wlink")}: ${$("#wlink").value.trim() || "—"}`,
+      `${t("wqty")}: ${$("#wqty").value || "—"}`,
+      `${t("name")}: ${$("#wname").value.trim()}`, `${t("email")}: ${$("#wemail").value.trim()}`, `${t("phone")}: ${$("#wphone").value.trim()}`,
+      `${t("notes")}: ${$("#wnote").value.trim()}`].join("\n");
+  }
+  function sendWish(via) {
+    const desc = $("#wdesc").value.trim(), email = $("#wemail").value.trim(), link = $("#wlink").value.trim();
+    if (!desc || !email || !$("#wemail").checkValidity()) { toast(t("wneed")); (desc ? $("#wemail") : $("#wdesc")).focus(); return; }
+    if (link && !/^https?:\/\//i.test(link)) { toast(t("badlink")); $("#wlink").focus(); return; }
+    const text = wishText();
+    const posted = postForm({ type: "wish", lang, email, name: $("#wname").value, phone: $("#wphone").value, link, qty: $("#wqty").value, text });
+    if (via === "wa") window.open("https://wa.me/" + CFG.whatsapp + "?text=" + encodeURIComponent(text), "_blank", "noopener");
+    else posted.then(ok => { if (!ok) location.href = `mailto:${CFG.email}?subject=${encodeURIComponent(text.split("\n")[0])}&body=${encodeURIComponent(text)}`; });
+    $("#wdone").hidden = false; toast(t("wsent"));
+  }
+  $("#wishform").addEventListener("submit", e => { e.preventDefault(); sendWish("mail"); });
   let qt;
   ["#q", "#qm"].forEach(s => $(s).addEventListener("input", e => {
     clearTimeout(qt); qt = setTimeout(() => { query = e.target.value.trim(); ["#q", "#qm"].forEach(o => { if ($(o) !== e.target) $(o).value = e.target.value; }); renderCatalog(); }, 150);

@@ -121,6 +121,34 @@ section.cat .wrap{padding-block:26px 8px}
 .btn.ghost{background:transparent;color:var(--fg);border:1.5px solid var(--fg)}
 .btn.wa{background:#25d366;color:#07301a}
 
+/* checkout notice / deposit / done */
+.notice{background:var(--tile3);color:#2b2000;border-radius:12px;padding:10px 12px;font-size:13px;display:grid;gap:4px}
+.notice p{margin:0}
+:root[data-theme="dark"] .notice{color:var(--fg)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .notice{color:var(--fg)}}
+.deposit{display:flex;justify-content:space-between;font-family:var(--display);font-weight:800;font-size:19px;color:var(--rosa);font-variant-numeric:tabular-nums;border-top:1px dashed var(--line);padding-top:6px}
+.checkout .opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.checkout .opts label{border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-weight:700;font-size:13px;cursor:pointer;display:flex;gap:8px;align-items:center}
+.checkout .opts label:has(input:checked){background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.checkout .opts input{margin:0}
+.done{padding:16px;display:grid;gap:10px;border-top:1px solid var(--line)}
+.done h3{font-size:22px;font-weight:800;color:var(--verde)}
+.done p{margin:0}
+.done .meta{color:var(--muted);font-size:13px}
+.done .acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+/* wishlist */
+.wish .wrap{padding-block:30px 10px}
+.wishbox{background:var(--surface);border:2px solid var(--azul);border-radius:16px;padding:18px;display:grid;gap:10px}
+.wishbox h2{font-size:26px;font-weight:800}
+.wishbox p{margin:0;color:var(--muted);max-width:70ch}
+.wishbox form{display:grid;gap:8px;margin-top:4px}
+.wishbox input,.wishbox textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:9px 11px;background:var(--bg);color:var(--fg);font:inherit}
+.wishbox .two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.wishbox .acts{display:flex;gap:8px;flex-wrap:wrap}
+.wishbox .wdone{color:var(--verde);font-weight:700}
+@media (min-width:720px){.wishbox form{grid-template-columns:1fr 1fr}.wishbox form textarea,.wishbox form .acts,.wishbox form .wdone,.wishbox form #wdesc{grid-column:1/-1}}
+
 /* faq */
 .faq .wrap{padding-block:30px 10px}
 .faq h2{font-size:26px;font-weight:800;margin-bottom:10px}
