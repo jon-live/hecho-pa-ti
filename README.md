@@ -18,10 +18,18 @@ python3 -m http.server 8080
 ## Before publishing
 
 1. **`js/config.js`** — set your real WhatsApp number, email, Zelle / Cash App handles, deposit %, arrival window, pickup city and shipping fee.
-   - `formEndpoint`: optional. Point it at a Formspree / Basin / Web3Forms form URL and every order and wishlist request is also POSTed there as JSON, so they land in your inbox without the customer opening WhatsApp.
+   - `formEndpoint`: where orders and wishlist requests are stored. Follow **[backend/apps-script/README.md](backend/apps-script/README.md)** to set up a private Google Sheet that receives them (write-only from the site) and emails you and the customer. Takes about 5 minutes. Formspree-style endpoints also work.
 2. **`js/catalog.js`** — edit products, prices, variants and minimum quantities. Each item is one line.
 3. **Photos** — drop a square JPG at `assets/<category>-<index>.jpg` (e.g. `assets/fe-0.jpg` is the first item under *Fe y Protección*). Items without a photo show a colored tile with the product name.
 4. **`js/i18n.js`** — all UI copy in Spanish, English and Chinese. Chinese product names live at the bottom of `js/catalog.js` (`HPT_CATALOG_ZH`, keyed by item id); any item missing there falls back to English.
+
+## Where orders go
+
+| Channel | What happens |
+|---|---|
+| WhatsApp | Opens with the full order text; always on. |
+| Google Sheet (`formEndpoint`) | Row appended to a private Sheet; you and the customer get an email. See `backend/apps-script/`. |
+| Email / copy | Fallbacks in the cart drawer. |
 
 ## Deploy
 

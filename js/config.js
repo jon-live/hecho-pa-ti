@@ -33,11 +33,13 @@ window.HPT_CONFIG = {
   // Pickup location (city is enough).
   pickupPlace: "San José, CA",
 
-  // Optional: a form backend (Formspree, Basin, Web3Forms…) that receives
-  // orders and wishlist requests as JSON POST, so they land in your inbox
-  // automatically. Leave "" to rely on WhatsApp / email only.
-  // Example (Formspree): "https://formspree.io/f/abcdwxyz"
+  // Where orders and wishlist requests are stored. Recommended: the Google
+  // Sheet web app in backend/apps-script (write-only, emails you and the
+  // customer). Paste its /exec URL here. Formspree-style endpoints also work.
+  // Leave "" to rely on WhatsApp / email only.
   formEndpoint: "",
+  // Must match SETTINGS.token in backend/apps-script/Code.gs.
+  formToken: "hpt-2026",
 
   // Instagram / TikTok handles (optional; leave "" to hide).
   instagram: "hechopati",

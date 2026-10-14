@@ -166,10 +166,17 @@
     return out.join("\n");
   }
   // Optional: POST to a form backend so orders / wishes land in the inbox automatically.
+  // Sent as text/plain so the browser skips the CORS preflight, which Apps
+  // Script web apps cannot answer. Falls back to an opaque no-cors POST.
   function postForm(payload) {
     if (!CFG.formEndpoint) return Promise.resolve(false);
-    return fetch(CFG.formEndpoint, { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(payload) })
-      .then(r => r.ok).catch(() => false);
+    const body = JSON.stringify(Object.assign({ token: CFG.formToken, site: location.hostname, ua: navigator.userAgent.slice(0, 120) }, payload));
+    const opts = { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body };
+    return fetch(CFG.formEndpoint, opts).then(r => r.ok)
+      .catch(() => fetch(CFG.formEndpoint, Object.assign({ mode: "no-cors" }, opts)).then(() => true).catch(() => false));
+  }
+  function cartItems() {
+    return Object.values(cart).map(l => ({ id: l.item, name: lineLabel(l).replace(/ \(.*\)$/, ""), variant: l.variant || "", perso: l.perso || "", qty: l.q, price: l.price, line: l.price * l.q, kind: l.kind }));
   }
   function showDone() {
     const s = totals();
@@ -223,7 +230,8 @@
     if (!$("#form").reportValidity()) return;
     const text = orderText();
     window.open("https://wa.me/" + CFG.whatsapp + "?text=" + encodeURIComponent(text), "_blank", "noopener");
-    postForm({ type: "order", lang, email: $("#email").value, name: $("#name").value, phone: $("#phone").value, text, cart, totals: totals() });
+    postForm({ type: "order", lang, email: $("#email").value.trim(), name: $("#name").value.trim(), phone: $("#phone").value.trim(),
+      city: $("#city").value.trim(), delivery: delivery(), pay: $("#pay").value, notes: $("#note").value.trim(), items: cartItems(), totals: totals(), text });
     showDone();
   });
 
@@ -241,7 +249,7 @@
     if (!desc || !email || !$("#wemail").checkValidity()) { toast(t("wneed")); (desc ? $("#wemail") : $("#wdesc")).focus(); return; }
     if (link && !/^https?:\/\//i.test(link)) { toast(t("badlink")); $("#wlink").focus(); return; }
     const text = wishText();
-    const posted = postForm({ type: "wish", lang, email, name: $("#wname").value, phone: $("#wphone").value, link, qty: $("#wqty").value, text });
+    const posted = postForm({ type: "wish", lang, email, name: $("#wname").value.trim(), phone: $("#wphone").value.trim(), desc, link, qty: $("#wqty").value, notes: $("#wnote").value.trim(), text });
     if (via === "wa") window.open("https://wa.me/" + CFG.whatsapp + "?text=" + encodeURIComponent(text), "_blank", "noopener");
     else posted.then(ok => { if (!ok) location.href = `mailto:${CFG.email}?subject=${encodeURIComponent(text.split("\n")[0])}&body=${encodeURIComponent(text)}`; });
     $("#wdone").hidden = false; toast(t("wsent"));
