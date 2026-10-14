@@ -1,6 +1,6 @@
 # Hecho Pa' Ti — tienda
 
-Static, bilingual (ES / EN) storefront for **Hecho Pa' Ti**: personalized keepsakes and everyday basics for Mexican families in the U.S. No build step, no backend.
+Static, trilingual (ES / EN / 中文) storefront for **Hecho Pa' Ti**: personalized keepsakes and everyday basics for Mexican families in the U.S. No build step, no backend.
 
 **Pre-order model.** Customers add to cart and send the order; checkout tells them it takes a few weeks to arrive, that they only pay a 10% deposit now (Zelle / Cash App), and that we email them to pick up or ship once it lands. Orders go out as a pre-filled WhatsApp message (or email / clipboard), and optionally to a form backend.
 
@@ -21,7 +21,7 @@ python3 -m http.server 8080
    - `formEndpoint`: optional. Point it at a Formspree / Basin / Web3Forms form URL and every order and wishlist request is also POSTed there as JSON, so they land in your inbox without the customer opening WhatsApp.
 2. **`js/catalog.js`** — edit products, prices, variants and minimum quantities. Each item is one line.
 3. **Photos** — drop a square JPG at `assets/<category>-<index>.jpg` (e.g. `assets/fe-0.jpg` is the first item under *Fe y Protección*). Items without a photo show a colored tile with the product name.
-4. **`js/i18n.js`** — all UI copy in Spanish and English.
+4. **`js/i18n.js`** — all UI copy in Spanish, English and Chinese. Chinese product names live at the bottom of `js/catalog.js` (`HPT_CATALOG_ZH`, keyed by item id); any item missing there falls back to English.
 
 ## Deploy
 
@@ -32,7 +32,7 @@ Any static host works. Examples:
 
 ## Features
 
-- Spanish by default, English toggle (remembered; `#en` in the URL forces English).
+- Spanish by default, English and Chinese toggles (remembered; `#en` or `#zh` in the URL forces a language).
 - 6 categories, 48 SKUs: *Personalizado* (made to order, 3–4 weeks) and *En stock* (ships 1–2 days).
 - Per-item personalization text, variant pickers (state, color), minimum quantities.
 - Quince package builder (100 / 150 / 200 guests × favor type).

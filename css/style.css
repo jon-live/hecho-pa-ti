@@ -5,8 +5,8 @@
   --bg:#fbf7ee; --surface:#ffffff; --fg:#22212a; --muted:#6c6878; --line:#e8e1d4;
   --rosa:#d4246b; --rosa-ink:#ffffff; --azul:#1f5fa8; --amarillo:#f2b632; --verde:#2f8f5b;
   --tile1:#f6d9e4; --tile2:#d7e6f7; --tile3:#fdebc5; --tile4:#d9efe2; --tile5:#efe0f5; --tile6:#f8dcd2;
-  --display:"Bricolage Grotesque","Arial Narrow",Impact,sans-serif;
-  --body:"Nunito","Segoe UI",system-ui,sans-serif;
+  --display:"Bricolage Grotesque","Arial Narrow",Impact,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  --body:"Nunito","Segoe UI",system-ui,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
   color-scheme:light;
 }
 @media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
@@ -46,7 +46,7 @@ header.bar .wrap{display:flex;align-items:center;gap:12px;padding-block:10px}
 .search input{border:0;background:transparent;color:var(--fg);padding:8px 4px;width:180px;font:inherit}
 .search input:focus{outline:none}
 @media (min-width:720px){.search{display:flex}}
-@media (max-width:480px){.brand small{display:none}.brand .name{font-size:19px}.brand svg{width:30px;height:30px}}
+@media (max-width:480px){.brand small{display:none}.brand .name{font-size:19px}.brand svg{width:30px;height:30px}.lang button{padding:6px 8px;font-size:12px}}
 .lang{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
 .lang button{border:0;background:transparent;color:var(--muted);padding:6px 11px;font-weight:700;font-size:13px}
 .lang button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}

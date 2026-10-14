@@ -11,7 +11,7 @@
 // and it will be used automatically; otherwise a colored tile is shown.
 // ─────────────────────────────────────────────────────────────
 window.HPT_CATALOG = [
- {id:"fe", tile:"t1", es:["Fe y Protección","Para la casa, el carro y la cartera."], en:["Faith & Protection","For the home, the car and your pocket."], items:[
+ {id:"fe", tile:"t1", es:["Fe y Protección","Para la casa, el carro y la cartera."], en:["Faith & Protection","For the home, the car and your pocket."], zh:["信仰与守护","家里、车上和随身携带。"], items:[
   ["c","Llavero Virgen de Guadalupe","Guadalupe Keychain","Metal esmaltado, dorado. Grabado opcional.","Enamel metal, gold finish. Optional engraving.",9,{p:true}],
   ["c","Llavero San Judas Tadeo","St. Jude Keychain","Metal esmaltado verde y oro.","Green and gold enamel metal.",9,{p:true}],
   ["c","Pin San Miguel Arcángel","St. Michael Lapel Pin","Esmalte duro, 1.2 pulgadas.","Hard enamel, 1.2 in.",8],
@@ -21,7 +21,7 @@ window.HPT_CATALOG = [
   ["s","Imagen San Judas 8\"","St. Jude Statue 8 in","Resina pintada a mano.","Hand-painted resin.",24],
   ["c","Imán Sagrado Corazón","Sacred Heart Magnet","Metal 3D para el refri.","3D metal fridge magnet.",7]]},
 
- {id:"carro", tile:"t2", es:["Mi Carro","Lo que cuelga del espejo y lo que dice tu placa."], en:["My Car","What hangs from the mirror and what your plate says."], items:[
+ {id:"carro", tile:"t2", es:["Mi Carro","Lo que cuelga del espejo y lo que dice tu placa."], en:["My Car","What hangs from the mirror and what your plate says."], zh:["我的车","后视镜挂件和车牌装饰。"], items:[
   ["c","Aromatizante Guadalupe","Guadalupe Car Charm","PVC con aroma a vainilla, cordón.","Scented PVC charm with cord.",8],
   ["c","Aromatizante San Judas","St. Jude Car Charm","PVC, aroma coco.","PVC, coconut scent.",8],
   ["c","Colgante \"Hecho en México\"","\"Hecho en México\" Charm","PVC con bandera, doble cara.","Two-sided PVC with flag.",7],
@@ -31,7 +31,7 @@ window.HPT_CATALOG = [
   ["s","Marco de placa personalizado","Custom License Frame","Acero inoxidable, texto a tu gusto.","Stainless steel, your text.",14,{p:true}],
   ["c","Llavero rin de lujo","Alloy Wheel Keychain","Metal con rin giratorio.","Metal with spinning rim.",11]]},
 
- {id:"cocina", tile:"t3", es:["Cocina Mexicana","Básicos que toda cocina necesita."], en:["Mexican Kitchen","Basics every kitchen needs."], items:[
+ {id:"cocina", tile:"t3", es:["Cocina Mexicana","Básicos que toda cocina necesita."], en:["Mexican Kitchen","Basics every kitchen needs."], zh:["墨西哥厨房","每个厨房都需要的基础用品。"], items:[
   ["s","Tortillero de tela bordado","Embroidered Tortilla Warmer","Algodón con forro térmico. Bordado \"Familia\" + apellido opcional.","Cotton with thermal lining. Optional \"Familia\" + last name.",10,{p:true}],
   ["s","Prensa para tortillas 8\"","Tortilla Press 8 in","Aluminio fundido, pesada.","Cast aluminum, heavy duty.",24],
   ["s","Exprimidor de limón","Lime Squeezer","Aluminio.","Aluminum.",8,{v:["Verde / Green","Amarillo / Yellow"]}],
@@ -41,7 +41,7 @@ window.HPT_CATALOG = [
   ["c","Portavasos Lotería (6)","Lotería Coasters (6)","PVC suave: El Gallo, La Luna, El Corazón…","Soft PVC: El Gallo, La Luna, El Corazón…",14],
   ["c","Destapador imán Lotería","Lotería Magnet Opener","Metal, se pega al refri.","Metal, sticks to the fridge.",9]]},
 
- {id:"quince", tile:"t5", es:["Mi Quince","Recuerdos para 100 invitados o más."], en:["My Quince","Favors for 100 guests or more."], items:[
+ {id:"quince", tile:"t5", es:["Mi Quince","Recuerdos para 100 invitados o más."], en:["My Quince","Favors for 100 guests or more."], zh:["十五岁成人礼","100 位以上宾客的回礼。"], items:[
   ["c","Espejo recuerdo con nombre","Keepsake Mirror with Name","PVC, nombre y fecha impresos.","PVC, name and date printed.",5,{p:true,v:["Rosa / Pink","Lila / Lilac"],min:50}],
   ["c","Monedero recuerdo","Keepsake Coin Purse","PVC con cierre, nombre y fecha.","Zip PVC, name and date.",5,{p:true,min:50}],
   ["c","Pin corona de Quince","Quince Crown Pin","Esmalte dorado con nombre.","Gold enamel with name.",6,{p:true,min:50}],
@@ -51,7 +51,7 @@ window.HPT_CATALOG = [
   ["s","Set de 50 bolsas de recuerdo","50 Favor Bags","Organza con listón.","Organza with ribbon.",16],
   ["s","Letrero \"Mis XV Años\"","\"Mis XV Años\" Sign","Acrílico dorado, 24 pulgadas.","Gold acrylic, 24 in.",34]]},
 
- {id:"fiesta", tile:"t6", es:["Fiesta","Cumpleaños, Día de Muertos, Navidad."], en:["Fiesta","Birthdays, Día de Muertos, Christmas."], items:[
+ {id:"fiesta", tile:"t6", es:["Fiesta","Cumpleaños, Día de Muertos, Navidad."], en:["Fiesta","Birthdays, Día de Muertos, Christmas."], zh:["派对","生日、亡灵节、圣诞节。"], items:[
   ["s","Papel picado 5 m","Papel Picado 5 m","Banderines de plástico, multicolor.","Plastic banners, multicolor.",8],
   ["s","Piñata estrella","Star Piñata","7 picos, 20 pulgadas.","7 points, 20 in.",22],
   ["s","Máscara calavera","Calavera Mask","Resina pintada, Día de Muertos.","Painted resin, Día de Muertos.",15],
@@ -61,7 +61,7 @@ window.HPT_CATALOG = [
   ["s","Set de 12 globos mexicanos","12 Mexican Balloons","Verde, blanco y rojo.","Green, white and red.",6],
   ["c","Medalla de torneo","Tournament Medal","Metal 2 pulgadas con listón. Para ligas y escuelas.","2 in metal with ribbon. For leagues and schools.",7,{p:true,min:20}]]},
 
- {id:"orgullo", tile:"t4", es:["Orgullo","Tu estado, tu barrio, tu pan dulce."], en:["Pride","Your state, your barrio, your pan dulce."], items:[
+ {id:"orgullo", tile:"t4", es:["Orgullo","Tu estado, tu barrio, tu pan dulce."], en:["Pride","Your state, your barrio, your pan dulce."], zh:["家乡骄傲","你的州、你的社区、你的甜面包。"], items:[
   ["c","Llavero escudo de tu estado","State Crest Keychain","32 estados, metal esmaltado.","All 32 states, enamel metal.",9,{v:["Jalisco","Michoacán","Zacatecas","Guanajuato","Sinaloa","Oaxaca","Puebla","Durango","Guerrero","Otro / Other"]}],
   ["c","Imanes Lotería (5)","Lotería Magnets (5)","Metal 3D en caja: El Sol, La Sirena, El Nopal…","3D metal in gift box: El Sol, La Sirena, El Nopal…",14],
   ["c","Llavero concha","Concha Keychain","PVC 3D.","3D PVC.",8,{v:["Rosa / Pink","Chocolate"]}],
@@ -71,3 +71,56 @@ window.HPT_CATALOG = [
   ["s","Hebilla vaquera águila","Eagle Cowboy Buckle","Aleación plateada, 3.5 pulgadas.","Silver alloy, 3.5 in.",22],
   ["s","Cobija sarape 50×70","Sarape Blanket 50×70","Acrílico tejido, multicolor.","Woven acrylic, multicolor.",32]]}
 ];
+
+// Chinese names and descriptions, keyed by item id (<categoryId>-<index>).
+// Items missing here fall back to English.
+window.HPT_CATALOG_ZH = {
+ "fe-0":["瓜达卢佩圣母钥匙扣","珐琅金属，金色。可选刻字。"],
+ "fe-1":["圣犹达钥匙扣","绿金双色珐琅金属。"],
+ "fe-2":["圣米迦勒徽章","硬珐琅，1.2 英寸。"],
+ "fe-3":["瓜达卢佩口袋币","黄铜，1.5 英寸，附收纳袋。"],
+ "fe-4":["木质念珠","木珠，金属十字架。"],
+ "fe-5":["瓜达卢佩圣母像 8 英寸","手绘树脂。"],
+ "fe-6":["圣犹达像 8 英寸","手绘树脂。"],
+ "fe-7":["圣心冰箱贴","3D 金属冰箱贴。"],
+ "carro-0":["瓜达卢佩车挂香片","PVC 香草味，带挂绳。"],
+ "carro-1":["圣犹达车挂香片","PVC，椰子味。"],
+ "carro-2":["\"Hecho en México\" 车挂","双面 PVC，带国旗。"],
+ "carro-3":["金属州名车牌","仪表台安装。选择你的州。"],
+ "carro-4":["后视镜念珠","大珠，金色十字架。"],
+ "carro-5":["Sarape 方向盘套","多彩编织，15 英寸。"],
+ "carro-6":["定制车牌框","不锈钢，自定义文字。"],
+ "carro-7":["轮毂钥匙扣","金属，轮毂可旋转。"],
+ "cocina-0":["刺绣玉米饼保温袋","棉布加保温内衬。可选绣 \"Familia\" + 姓氏。"],
+ "cocina-1":["玉米饼压饼器 8 英寸","铸铝，厚重耐用。"],
+ "cocina-2":["青柠榨汁器","铝制。"],
+ "cocina-3":["搪瓷杯","经典搪瓷，12 盎司。"],
+ "cocina-4":["搪瓷盘 4 件套","搪瓷，10 英寸。"],
+ "cocina-5":["迷你火山岩酱料臼","火山岩，4 英寸。"],
+ "cocina-6":["Lotería 杯垫（6 个）","软 PVC：公鸡、月亮、心…"],
+ "cocina-7":["Lotería 磁吸开瓶器","金属，可吸在冰箱上。"],
+ "quince-0":["刻名纪念镜","PVC，印名字和日期。"],
+ "quince-1":["纪念零钱包","拉链 PVC，印名字和日期。"],
+ "quince-2":["Quince 皇冠徽章","金色珐琅，刻名字。"],
+ "quince-3":["\"Mis XV\" 钥匙扣","金色金属，刻日期。"],
+ "quince-4":["水晶头冠","合金镶水晶，3 英寸。"],
+ "quince-5":["签名簿","粉色硬壳，40 页。"],
+ "quince-6":["回礼袋 50 个","欧根纱配丝带。"],
+ "quince-7":["\"Mis XV Años\" 标牌","金色亚克力，24 英寸。"],
+ "fiesta-0":["剪纸彩旗 5 米","塑料彩旗，多色。"],
+ "fiesta-1":["星形皮纳塔","7 角，20 英寸。"],
+ "fiesta-2":["骷髅面具","手绘树脂，亡灵节。"],
+ "fiesta-3":["花环头饰","布艺花朵，可调节。"],
+ "fiesta-4":["糖骷髅模具","硅胶，3 种尺寸。"],
+ "fiesta-5":["Catrina 珐琅徽章","硬珐琅，1.5 英寸。"],
+ "fiesta-6":["墨西哥配色气球 12 个","绿、白、红。"],
+ "fiesta-7":["比赛奖牌","2 英寸金属配绶带。适合球队和学校。"],
+ "orgullo-0":["州徽钥匙扣","32 个州，珐琅金属。"],
+ "orgullo-1":["Lotería 冰箱贴（5 个）","3D 金属礼盒装：太阳、美人鱼、仙人掌…"],
+ "orgullo-2":["Concha 面包钥匙扣","3D PVC。"],
+ "orgullo-3":["Concha AirPods 保护套","硅胶带挂钩。"],
+ "orgullo-4":["\"La Chancla\" 徽章","珐琅，1 英寸。送妈妈的礼物。"],
+ "orgullo-5":["仙人掌手机支架","3D PVC。"],
+ "orgullo-6":["雄鹰牛仔皮带扣","银色合金，3.5 英寸。"],
+ "orgullo-7":["Sarape 毛毯 50×70","腈纶编织，多彩。"]
+};

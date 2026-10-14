@@ -2,6 +2,7 @@
 (function () {
   const CFG = window.HPT_CONFIG, T = window.HPT_I18N, CATS = window.HPT_CATALOG;
   const $ = s => document.querySelector(s);
+  const LANGS = ["es", "en", "zh"];
   let lang = "es", cart = {}, query = "";
 
   // ── i18n ────────────────────────────────────────────────────
@@ -17,9 +18,12 @@
   const ITEMS = {};
   CATS.forEach(c => c.items.forEach((it, i) => {
     const id = c.id + "-" + i;
-    ITEMS[id] = { id, cat: c, kind: it[0], es: it[1], en: it[2], des: it[3], den: it[4], price: it[5], opt: it[6] || {} };
+    const zh = (window.HPT_CATALOG_ZH || {})[id] || [];
+    ITEMS[id] = { id, cat: c, kind: it[0], es: it[1], en: it[2], des: it[3], den: it[4], zh: zh[0], dzh: zh[1], price: it[5], opt: it[6] || {} };
   }));
-  const nameOf = it => lang === "es" ? it.es : it.en;
+  const nameOf = it => lang === "es" ? it.es : lang === "zh" ? (it.zh || it.en) : it.en;
+  const descOf = it => lang === "es" ? it.des : lang === "zh" ? (it.dzh || it.den) : it.den;
+  const catName = (c, i) => (lang === "zh" && c.zh ? c.zh : c[lang] || c.en)[i];
 
   // ── persistence ─────────────────────────────────────────────
   function load() {
@@ -27,10 +31,10 @@
       const c = JSON.parse(localStorage.getItem("hpt-cart") || "{}");
       if (c && typeof c === "object") cart = c;
       const l = localStorage.getItem("hpt-lang");
-      if (l === "en" || l === "es") lang = l;
+      if (LANGS.includes(l)) lang = l;
     } catch (e) {}
     const h = location.hash.replace("#", "");
-    if (h === "en" || h === "es") lang = h;
+    if (LANGS.includes(h)) lang = h;
   }
   function save() { try { localStorage.setItem("hpt-cart", JSON.stringify(cart)); localStorage.setItem("hpt-lang", lang); } catch (e) {} }
 
@@ -39,8 +43,7 @@
     document.documentElement.lang = lang;
     document.querySelectorAll("[data-i]").forEach(el => { el.innerHTML = t(el.dataset.i); });
     document.querySelectorAll("[data-p]").forEach(el => { el.placeholder = t(el.dataset.p); });
-    $("#es").setAttribute("aria-pressed", lang === "es");
-    $("#en").setAttribute("aria-pressed", lang === "en");
+    LANGS.forEach(l => $("#" + l).setAttribute("aria-pressed", lang === l));
     $("#wadisplay").textContent = CFG.whatsappDisplay;
     $("#social").innerHTML = [
       CFG.instagram && `<a href="https://instagram.com/${esc(CFG.instagram)}" target="_blank" rel="noopener">Instagram</a>`,
@@ -54,18 +57,18 @@
   function matches(it) {
     if (!query) return true;
     const q = query.toLowerCase();
-    return [it.es, it.en, it.des, it.den, it.cat.es[0], it.cat.en[0]].some(s => s.toLowerCase().includes(q));
+    return [it.es, it.en, it.des, it.den, it.zh, it.dzh, it.cat.es[0], it.cat.en[0], it.cat.zh?.[0]].some(s => s && s.toLowerCase().includes(q));
   }
 
   function renderCatalog() {
-    $("#catnav").innerHTML = CATS.map(c => `<a href="#${c.id}">${esc(c[lang][0])}</a>`).join("") + `<a href="#pedido">✦ ${esc(lang === "es" ? "Pídelo" : "Ask for it")}</a>`;
+    $("#catnav").innerHTML = CATS.map(c => `<a href="#${c.id}">${esc(catName(c, 0))}</a>`).join("") + `<a href="#pedido">✦ ${esc({ es: "Pídelo", en: "Ask for it", zh: "告诉我们" }[lang])}</a>`;
     let any = false;
     $("#main").innerHTML = CATS.map(c => {
       const items = c.items.map((_, i) => ITEMS[c.id + "-" + i]).filter(matches);
       if (!items.length) return "";
       any = true;
       return `<section class="cat" id="${c.id}"><div class="wrap">
-        <div class="cathead"><h2>${esc(c[lang][0])}</h2><p>${esc(c[lang][1])}</p></div>
+        <div class="cathead"><h2>${esc(catName(c, 0))}</h2><p>${esc(catName(c, 1))}</p></div>
         <div class="grid">${items.map(card).join("")}</div>
         ${c.id === "quince" && !query ? quincePack() : ""}
       </div></section>`;
@@ -74,7 +77,7 @@
   }
 
   function card(it) {
-    const o = it.opt, name = nameOf(it), desc = lang === "es" ? it.des : it.den;
+    const o = it.opt, name = nameOf(it), desc = descOf(it);
     const img = `assets/${it.id}.jpg`;
     return `<article class="card ${it.kind === "c" ? "custom" : ""}" data-id="${it.id}">
       <div class="tile ${it.cat.tile}" data-tag="${it.kind === "c" ? t("custom") : t("stock")}">
@@ -100,7 +103,7 @@
   // ── cart ────────────────────────────────────────────────────
   function lineLabel(l) {
     const it = ITEMS[l.item];
-    const base = l.label || (it ? nameOf(it) : l.item);
+    const base = l.pack ? `${t("packname")} · ${l.pack.n} ${t("invitados")} · ${l.pack.ty}` : l.label || (it ? nameOf(it) : l.item);
     const bits = [l.variant, l.perso].filter(Boolean);
     return bits.length ? `${base} (${bits.join(" · ")})` : base;
   }
@@ -180,14 +183,14 @@
   // ── events ──────────────────────────────────────────────────
   document.addEventListener("click", e => {
     const b = e.target.closest("button"); if (!b) return;
-    if (b.id === "es" || b.id === "en") { lang = b.id; save(); render(); return; }
+    if (LANGS.includes(b.id)) { lang = b.id; save(); render(); return; }
     if (b.classList.contains("add")) { addFromCard(b); return; }
     if (b.id === "pkadd") {
       const n = +document.querySelector("input[name=pk]:checked").value;
       const ty = document.querySelector("input[name=pt]:checked").value;
       const who = ($("#pkname").value || "").trim();
       const key = ["quince-pack", n, ty, who].join("|");
-      cart[key] = { item: "quince-pack", kind: "c", q: 1, price: n * CFG.quincePerGuest, label: `${t("packname")} · ${n} ${t("invitados")} · ${ty}`, perso: who };
+      cart[key] = { item: "quince-pack", kind: "c", q: 1, price: n * CFG.quincePerGuest, pack: { n, ty }, perso: who };
       save(); renderCart(); toast(t("added")); return;
     }
     if (b.id === "opencart") { openCart(true); return; }
@@ -226,7 +229,7 @@
 
   // ── wishlist ("Pídelo") ─────────────────────────────────────
   function wishText() {
-    return [lang === "es" ? "Petición Hecho Pa' Ti" : "Hecho Pa' Ti request",
+    return [{ es: "Petición Hecho Pa' Ti", en: "Hecho Pa' Ti request", zh: "Hecho Pa' Ti 需求" }[lang],
       `${t("wdesc").split(" (")[0]}: ${$("#wdesc").value.trim()}`,
       `${t("wlink")}: ${$("#wlink").value.trim() || "—"}`,
       `${t("wqty")}: ${$("#wqty").value || "—"}`,
