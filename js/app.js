@@ -80,8 +80,8 @@
     const o = it.opt, name = nameOf(it), desc = descOf(it);
     const img = `assets/${it.id}.jpg`;
     return `<article class="card ${it.kind === "c" ? "custom" : ""}" data-id="${it.id}">
-      <div class="tile ${it.cat.tile}" data-tag="${it.kind === "c" ? t("custom") : t("stock")}">
-        <img src="${img}" alt="" loading="lazy" onerror="this.remove()">${esc(name)}</div>
+      <div class="tile ${it.cat.tile}" data-tag="${it.kind === "c" ? t("custom") : t("stock")}" data-sample="${t("sample")}">
+        <img src="${img}" alt="" loading="lazy" onerror="this.remove()" onload="this.parentNode.classList.add('hasimg')">${esc(name)}</div>
       <div class="info">
         <h3>${esc(name)}</h3><p>${esc(desc)}</p>
         ${o.min ? `<span class="minq">${t("min", { n: o.min })}</span>` : ""}
