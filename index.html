@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Hecho Pa' Ti</title>
+<meta name="description" content="Detalles personalizados y básicos del hogar para la familia mexicana en EE. UU. Personalized keepsakes and everyday basics for Mexican families in the U.S.">
+<meta property="og:title" content="Hecho Pa' Ti">
+<meta property="og:description" content="Diseñado por mexicanos, con tu nombre. Llaveros, imanes, recuerdos de quince, cocina y más.">
+<meta name="theme-color" content="#d4246b">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Nunito:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="papel"></div>
+<header class="bar"><div class="wrap">
+  <a class="brand" href="#top" aria-label="Hecho Pa' Ti">
+    <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="#d4246b"/><path d="M24 36c-6-4-12-9-12-15a6 6 0 0 1 11-3.5A6 6 0 0 1 36 21c0 6-6 11-12 15z" fill="#fbf7ee"/><path d="M19 20.5c1.2-2 3.8-2.2 5-.3 1.2-1.9 3.8-1.7 5 .3" fill="none" stroke="#d4246b" stroke-width="1.6" stroke-linecap="round"/></svg>
+    <span><span class="name">Hecho Pa' Ti</span><small data-i="tag">Diseñado por mexicanos, con tu nombre</small></span>
+  </a>
+  <div class="spacer"></div>
+  <label class="search"><span aria-hidden="true">🔍</span><input id="q" type="search" data-p="search" placeholder="Buscar…" autocomplete="off"></label>
+  <div class="lang" role="group" aria-label="Idioma / Language"><button id="es" aria-pressed="true">ES</button><button id="en" aria-pressed="false">EN</button></div>
+  <button class="cartbtn" id="opencart" aria-haspopup="dialog"><span data-i="cart">Carrito</span><b id="count">0</b></button>
+</div></header>
+
+<section class="hero" id="top"><div class="wrap">
+  <h1 data-i="h1">Hecho pa' tu casa, tu carro y tu <em>fiesta</em>.</h1>
+  <p data-i="sub"></p>
+  <div class="trust"><span data-i="t1"></span><span data-i="t2"></span><span data-i="t3"></span></div>
+</div></section>
+
+<nav class="cats" aria-label="Categorías"><div class="wrap" id="catnav"></div><div class="msearch"><input id="qm" type="search" data-p="search" placeholder="Buscar…" autocomplete="off"></div></nav>
+
+<section class="how"><div class="wrap">
+  <div class="steps">
+    <div class="step"><b>1</b><h3 data-i="how1"></h3><p data-i="how1p"></p></div>
+    <div class="step"><b>2</b><h3 data-i="how2"></h3><p data-i="how2p"></p></div>
+    <div class="step"><b>3</b><h3 data-i="how3"></h3><p data-i="how3p"></p></div>
+  </div>
+</div></section>
+
+<main id="main"></main>
+
+<section class="faq" id="faq"><div class="wrap">
+  <h2 data-i="faq"></h2>
+  <details><summary data-i="q1"></summary><p data-i="a1"></p></details>
+  <details><summary data-i="q2"></summary><p data-i="a2"></p></details>
+  <details><summary data-i="q3"></summary><p data-i="a3"></p></details>
+  <details><summary data-i="q4"></summary><p data-i="a4"></p></details>
+</div></section>
+
+<footer><div class="wrap">
+  <div><strong>Hecho Pa' Ti</strong> · <span data-i="foot1"></span></div>
+  <div data-i="foot2"></div>
+  <div data-i="foot3"></div>
+  <div class="social" id="social"></div>
+</div></footer>
+
+<div id="cartroot" hidden>
+  <div class="scrim" id="scrim"></div>
+  <aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="carttitle">
+    <header><h2 id="carttitle" data-i="cart">Carrito</h2><button class="x" id="closecart" aria-label="Cerrar / Close">×</button></header>
+    <div class="lines" id="lines"></div>
+    <form class="checkout" id="form">
+      <div class="sumrow"><span data-i="subtotal"></span><span id="subtotal">$0</span></div>
+      <div class="sumrow" id="shiprow"><span data-i="shipping"></span><span id="ship">$0</span></div>
+      <div class="total"><span data-i="total">Total</span><span id="total">$0</span></div>
+      <div class="two"><input id="name" data-p="name" autocomplete="name" required><input id="phone" data-p="phone" inputmode="tel" autocomplete="tel" required></div>
+      <input id="city" data-p="city" autocomplete="address-level2">
+      <select id="pay"><option value="Zelle">Zelle</option><option value="Cash App">Cash App</option><option value="Efectivo / Cash" data-i="cash"></option><option value="Tarjeta / Card" data-i="cardopt"></option></select>
+      <textarea id="note" rows="2" data-p="note"></textarea>
+      <button class="btn wa" type="submit" data-i="send"></button>
+      <div class="acts"><button class="btn ghost" type="button" id="mail" data-i="mail"></button><button class="btn ghost" type="button" id="copy" data-i="copy"></button></div>
+      <div class="wa-line"><span data-i="orwa"></span><code id="wadisplay"></code></div>
+    </form>
+  </aside>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/catalog.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
