@@ -63,6 +63,58 @@ header.bar .wrap{display:flex;align-items:center;gap:12px;padding-block:10px}
 .trust{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:13px;font-weight:700}
 .trust span::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--verde);margin-right:7px;vertical-align:1px}
 
+.herorow{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center}
+.state{display:flex;align-items:center;gap:8px;font-weight:700;font-size:14px}
+.state select{border:1px solid var(--line);border-radius:999px;padding:7px 12px;background:var(--surface);color:var(--fg);font:inherit;font-weight:700}
+.btn.small{padding:8px 14px;font-size:14px;text-decoration:none;display:inline-block}
+.stateline{font-family:var(--display);font-weight:800;color:var(--verde);font-size:18px}
+/* season banner */
+.season{background:var(--amarillo);color:#2b2000}
+.season .wrap{padding-block:10px;display:flex;flex-wrap:wrap;gap:6px 18px;align-items:baseline;font-size:14px}
+.season strong{font-family:var(--display);font-size:15px}
+.season span{display:inline-block}
+.season span+span::before{content:"·";margin:0 8px;opacity:.5}
+@media (max-width:600px){.season span+span::before{content:"";margin:0}.season span{display:block}}
+/* workshop */
+.taller .wrap{padding-block:26px 6px}
+.tallerbox{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--verde);border-radius:16px;padding:18px;display:grid;gap:14px}
+@media (min-width:720px){.tallerbox{grid-template-columns:1.2fr 1fr}}
+.tallerbox h2{font-size:24px;font-weight:800;margin-bottom:6px}
+.tallerbox p{margin:0;color:var(--muted)}
+.tallerbox ul{margin:0;padding:0;list-style:none;display:grid;gap:8px;font-size:14px;font-weight:700}
+.tallerbox li::before{content:"✓";color:var(--verde);margin-right:8px}
+/* Lotería-style frame on photo tiles */
+.tile.hasimg{box-shadow:inset 0 0 0 6px #fff,inset 0 0 0 8px var(--rosa)}
+.small{font-size:12px}.muted{color:var(--muted)}
+.notice .small{opacity:.8}
+.info .details{border:0;background:transparent;color:var(--azul);font-weight:700;font-size:12px;padding:0;text-align:left}
+/* product modal */
+.modal{position:fixed;inset:auto 0 0 0;max-height:92vh;overflow:auto;background:var(--surface);z-index:31;border-radius:18px 18px 0 0;box-shadow:0 -10px 40px rgba(0,0,0,.3)}
+@media (min-width:720px){.modal{inset:50% auto auto 50%;transform:translate(-50%,-50%);width:min(880px,94vw);max-height:90vh;border-radius:18px}}
+.modal .x{position:absolute;right:10px;top:8px;z-index:2;background:var(--surface);border-radius:50%;width:36px;height:36px}
+.pmgrid{display:grid}
+@media (min-width:720px){.pmgrid{grid-template-columns:1fr 1.1fr}}
+.pmimg{aspect-ratio:1/1;background:var(--tile1);display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:22px;text-align:center;padding:20px;position:relative;overflow:hidden}
+.pmimg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.pmimg.hasimg{color:transparent;box-shadow:inset 0 0 0 8px #fff,inset 0 0 0 10px var(--rosa)}
+.pmimg.hasimg::after{content:attr(data-sample);position:absolute;left:0;right:0;bottom:0;padding:6px 12px;font-family:var(--body);font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#fff;background:linear-gradient(transparent,rgba(0,0,0,.55));text-align:right}
+.pmbody{padding:18px 18px 22px;display:grid;gap:10px;align-content:start}
+.pmtag{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--rosa)}
+.pmbody h3{font-size:24px;font-weight:800;line-height:1.1}
+.pmbody>p{margin:0;color:var(--muted)}
+.specs{margin:0;display:grid;grid-template-columns:auto 1fr;gap:5px 12px;font-size:13px;border-top:1px solid var(--line);padding-top:10px}
+.specs dt{color:var(--muted);font-weight:700}
+.specs dd{margin:0}
+.howmade{border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:13px}
+.howmade summary{font-weight:800;cursor:pointer}
+.howmade ol{margin:8px 0 0;padding-left:20px;display:grid;gap:4px}
+#pmform{display:grid;gap:8px;border-top:1px solid var(--line);padding-top:10px}
+#pmform select,#pmform input{width:100%;border:1px solid var(--line);border-radius:10px;padding:9px 11px;background:var(--bg);color:var(--fg);font:inherit}
+.pmrow{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.qty{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px}
+.qty input{width:80px!important}
+#pmform .small{margin:0}
+
 /* category chips */
 nav.cats{position:sticky;top:57px;z-index:19;background:var(--bg);border-bottom:1px solid var(--line)}
 nav.cats .wrap{display:flex;gap:8px;overflow-x:auto;padding-block:10px;scrollbar-width:none}

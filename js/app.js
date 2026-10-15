@@ -6,7 +6,9 @@
   let lang = "es", cart = {}, query = "";
 
   // ── i18n ────────────────────────────────────────────────────
-  const VARS = { shipFrom: CFG.shipFrom, d: CFG.stockDays, w: CFG.customWeeks, zelle: CFG.zelle, cashApp: CFG.cashApp, n: CFG.freeShipOver, dp: CFG.depositPercent, aw: CFG.arrivalWeeks, pickup: CFG.pickupPlace };
+  const VARS = { shipFrom: CFG.shipFrom, d: CFG.stockDays, w: CFG.customWeeks, zelle: CFG.zelle, cashApp: CFG.cashApp, n: CFG.freeShipOver, dp: CFG.depositPercent, aw: CFG.arrivalWeeks, pickup: CFG.pickupPlace, rt: CFG.replyTime, url: CFG.siteUrl };
+  const SP = window.HPT_SPECS || { labels: {}, types: {} };
+  let state = "";
   function t(k, extra) {
     let s = T[lang][k] ?? T.es[k] ?? k;
     const v = Object.assign({}, VARS, extra || {});
@@ -30,13 +32,33 @@
     try {
       const c = JSON.parse(localStorage.getItem("hpt-cart") || "{}");
       if (c && typeof c === "object") cart = c;
+      state = localStorage.getItem("hpt-state") || "";
       const l = localStorage.getItem("hpt-lang");
       if (LANGS.includes(l)) lang = l;
     } catch (e) {}
     const h = location.hash.replace("#", "");
     if (LANGS.includes(h)) lang = h;
   }
-  function save() { try { localStorage.setItem("hpt-cart", JSON.stringify(cart)); localStorage.setItem("hpt-lang", lang); } catch (e) {} }
+  function save() { try { localStorage.setItem("hpt-cart", JSON.stringify(cart)); localStorage.setItem("hpt-lang", lang); localStorage.setItem("hpt-state", state); } catch (e) {} }
+  const fold = s => String(s || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  function fmtDate(iso) {
+    const d = new Date(iso + "T12:00:00");
+    return new Intl.DateTimeFormat({ es: "es-MX", en: "en-US", zh: "zh-CN" }[lang], { day: "numeric", month: "long" }).format(d);
+  }
+  function renderSeason() {
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const rows = (CFG.seasons || []).map(x => { const d = new Date(x.d + "T12:00:00"); const cut = new Date(d); cut.setDate(cut.getDate() - (CFG.leadDays || 42)); return { ...x, date: d, cut }; })
+      .filter(x => x.cut >= today).slice(0, 2);
+    $("#season").hidden = !rows.length;
+    $("#seasonlist").innerHTML = rows.map(x => `<span>${t("season", { cut: fmtDate(x.cut.toISOString().slice(0, 10)), date: fmtDate(x.d), name: esc(x[lang] || x.es) })}</span>`).join("");
+  }
+  function renderState() {
+    const sel = $("#state");
+    sel.innerHTML = `<option value="">${t("stateany")}</option>` + (CFG.states || []).map(x => `<option ${x === state ? "selected" : ""}>${esc(x)}</option>`).join("");
+    let line = document.querySelector(".stateline");
+    if (state) { if (!line) { line = document.createElement("span"); line.className = "stateline"; $(".herorow").appendChild(line); } line.textContent = t("stateline", { state }); }
+    else if (line) line.remove();
+  }
 
   // ── render ──────────────────────────────────────────────────
   function render() {
@@ -50,14 +72,16 @@
       CFG.tiktok && `<a href="https://tiktok.com/@${esc(CFG.tiktok)}" target="_blank" rel="noopener">TikTok</a>`,
       `<a href="https://wa.me/${esc(CFG.whatsapp)}" target="_blank" rel="noopener">WhatsApp</a>`
     ].filter(Boolean).join("");
+    $("#share").href = "https://wa.me/?text=" + encodeURIComponent(t("sharetext"));
+    renderState(); renderSeason();
     renderCatalog();
     renderCart();
   }
 
   function matches(it) {
     if (!query) return true;
-    const q = query.toLowerCase();
-    return [it.es, it.en, it.des, it.den, it.zh, it.dzh, it.cat.es[0], it.cat.en[0], it.cat.zh?.[0]].some(s => s && s.toLowerCase().includes(q));
+    const q = fold(query);
+    return [it.es, it.en, it.des, it.den, it.zh, it.dzh, it.cat.es[0], it.cat.en[0], it.cat.zh?.[0]].some(s => s && fold(s).includes(q));
   }
 
   function renderCatalog() {
@@ -85,12 +109,41 @@
       <div class="info">
         <h3>${esc(name)}</h3><p>${esc(desc)}</p>
         ${o.min ? `<span class="minq">${t("min", { n: o.min })}</span>` : ""}
-        ${o.v ? `<select class="variant" aria-label="${t("variant")}"><option value="" disabled selected>${t("variant")}…</option>${o.v.map(v => `<option>${esc(v)}</option>`).join("")}</select>` : ""}
+        ${o.v ? variantSelect(o.v, "variant") : ""}
         ${o.p ? `<input class="perso" maxlength="60" placeholder="${t("perso")}">` : ""}
+        <button type="button" class="details" data-open="${it.id}">${t("details")} →</button>
         <div class="row"><span class="price">$${it.price}<small>${t("each")}</small></span><button class="add" data-id="${it.id}">${t("add")}</button></div>
       </div></article>`;
   }
 
+  function isStateVariant(v) { return v.some(x => /estado|state/i.test(x)) || v.includes("Jalisco"); }
+  function variantSelect(v, cls) {
+    const st = state && isStateVariant(v);
+    const opts = v.map(x => { const isMine = /mi estado|my state/i.test(x); const val = isMine && state ? state : x; const sel = st && (isMine || x === state) ? "selected" : ""; return `<option value="${esc(val)}" ${sel}>${esc(isMine && state ? state : x)}</option>`; });
+    return `<select class="${cls}" aria-label="${t("variant")}"><option value="" disabled ${st ? "" : "selected"}>${t("variant")}…</option>${opts.join("")}</select>`;
+  }
+  // ── product modal ──────────────────────────────────────────
+  let pmItem = null;
+  function openProduct(id) {
+    const it = ITEMS[id]; if (!it) return; pmItem = it;
+    const o = it.opt, sp = (SP.types[o.sp] || SP.types.stock || {})[lang] || {}, L = SP.labels[lang] || {};
+    const img = `assets/${it.id}.jpg`;
+    const box = $("#pmimg"); box.className = "pmimg " + it.cat.tile; box.setAttribute("data-sample", t("sample"));
+    box.innerHTML = `<img src="${img}" alt="" onerror="this.remove()" onload="this.parentNode.classList.add('hasimg')">${esc(nameOf(it))}`;
+    $("#pmtag").textContent = it.kind === "c" ? (L.made || t("custom")) : (L.stockt || t("stock"));
+    $("#pmtitle").textContent = nameOf(it); $("#pmdesc").textContent = descOf(it);
+    $("#pmspecs").innerHTML = ["m", "s", "f", "a", "p", "z", "q"].filter(k => sp[k] && sp[k] !== "—").map(k => `<dt>${esc(L[k] || k)}</dt><dd>${esc(sp[k])}</dd>`).join("");
+    $("#pmhow").hidden = it.kind !== "c";
+    $("#pmsteps").innerHTML = ["s1", "s2", "s3", "s4", "s5", "s6"].map(k => `<li>${t(k)}</li>`).join("");
+    const v = $("#pmvariant"); v.hidden = !o.v; if (o.v) v.outerHTML = variantSelect(o.v, "pmv").replace('class="pmv"', 'id="pmvariant" class="pmv"');
+    const pe = $("#pmperso"); pe.hidden = !o.p; pe.placeholder = t("perso"); pe.value = "";
+    const q = $("#pmqty"); q.min = o.min || 1; q.value = o.min || 1;
+    $("#pmmin").textContent = o.min ? t("min", { n: o.min }) : "";
+    updatePmPrice();
+    $("#pmroot").hidden = false; $("#pmclose").focus();
+  }
+  function updatePmPrice() { if (!pmItem) return; const q = Math.max(1, +$("#pmqty").value || 1); $("#pmprice").innerHTML = `$${pmItem.price * q}<small> · $${pmItem.price}${t("each")}</small>`; }
+  function closeProduct() { $("#pmroot").hidden = true; pmItem = null; }
   function quincePack() {
     const per = CFG.quincePerGuest;
     return `<div class="pack" id="pack"><h3>${t("packh")}</h3><p>${t("packp")}</p>
@@ -141,13 +194,17 @@
     save(); renderCart();
     const b = $("#opencart"); b.classList.remove("bump"); void b.offsetWidth; b.classList.add("bump");
   }
+  function addProduct(it, variant, perso, qty) {
+    const key = [it.id, variant, perso].join("|");
+    const q = qty || (it.opt.min && !cart[key] ? it.opt.min : 1);
+    addLine(key, { item: it.id, kind: it.kind, price: it.price, variant, perso }, q);
+  }
   function addFromCard(btn) {
     const it = ITEMS[btn.dataset.id], art = btn.closest(".card");
     const variant = art.querySelector(".variant")?.value || "";
     const perso = (art.querySelector(".perso")?.value || "").trim();
     if (it.opt.v && !variant) { art.querySelector(".variant").focus(); toast(t("variant") + "…"); return; }
-    const key = [it.id, variant, perso].join("|");
-    addLine(key, { item: it.id, kind: it.kind, price: it.price, variant, perso }, it.opt.min && !cart[key] ? it.opt.min : 1);
+    addProduct(it, variant, perso);
     btn.textContent = t("added"); btn.classList.add("done");
     setTimeout(() => { btn.classList.remove("done"); btn.textContent = t("add"); }, 1200);
   }
@@ -192,6 +249,8 @@
     const b = e.target.closest("button"); if (!b) return;
     if (LANGS.includes(b.id)) { lang = b.id; save(); render(); return; }
     if (b.classList.contains("add")) { addFromCard(b); return; }
+    if (b.dataset.open) { openProduct(b.dataset.open); return; }
+    if (b.id === "pmclose") { closeProduct(); return; }
     if (b.id === "pkadd") {
       const n = +document.querySelector("input[name=pk]:checked").value;
       const ty = document.querySelector("input[name=pt]:checked").value;
@@ -218,11 +277,21 @@
       location.href = `mailto:${CFG.email}?subject=${encodeURIComponent(t("order"))}&body=${encodeURIComponent(orderText())}`;
     }
   });
+  document.addEventListener("click", e => { const tile = e.target.closest(".card .tile, .card h3"); if (tile) openProduct(tile.closest(".card").dataset.id); });
+  $("#pmscrim").addEventListener("click", closeProduct);
+  $("#pmqty").addEventListener("input", updatePmPrice);
+  $("#pmform").addEventListener("submit", e => {
+    e.preventDefault(); if (!pmItem) return;
+    const variant = $("#pmvariant").value || "", perso = ($("#pmperso").value || "").trim(), qty = Math.max(+$("#pmqty").min || 1, +$("#pmqty").value || 1);
+    if (pmItem.opt.v && !variant) { $("#pmvariant").focus(); toast(t("variant") + "…"); return; }
+    addProduct(pmItem, variant, perso, qty); toast(t("added")); closeProduct(); openCart(true);
+  });
+  $("#state").addEventListener("change", e => { state = e.target.value; save(); render(); });
   document.addEventListener("change", e => {
     if (e.target.name === "pk") $("#pkprice").textContent = "$" + (+e.target.value * CFG.quincePerGuest);
     if (e.target.name === "dl") renderCart();
   });
-  document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("#cartroot").hidden) openCart(false); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") { if (!$("#pmroot").hidden) closeProduct(); else if (!$("#cartroot").hidden) openCart(false); } });
   $("#scrim").addEventListener("click", () => openCart(false));
   $("#form").addEventListener("submit", e => {
     e.preventDefault();

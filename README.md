@@ -15,6 +15,15 @@ python3 -m http.server 8080
 # → http://localhost:8080
 ```
 
+## Launch checklist (do these before sharing the link)
+
+1. `js/config.js`: real WhatsApp number, email, Zelle / Cash App handles, `replyTime` (only promise what you can keep), `pickupPlace`.
+2. Google Sheet intake: follow `backend/apps-script/README.md`, paste the `/exec` URL into `formEndpoint`.
+3. Namecheap: CNAME `tienda` → `jon-live.github.io.`, then tick **Enforce HTTPS** in the repo's Pages settings.
+4. Confirm the spec defaults in `js/specs.js` with Winston (sizes, minimums, lead times are industry-standard placeholders).
+5. Confirm the workshop claims in the "Nuestro taller" section (17 years, Disney / Universal / Target audits, ISO 9001 come from Winstone's own catalog).
+6. Send the link to 10–20 paisanos and swap-meet vendors first; watch which categories get tapped.
+
 ## Before publishing
 
 1. **`js/config.js`** — set your real WhatsApp number, email, Zelle / Cash App handles, deposit %, arrival window, pickup city and shipping fee.
@@ -42,6 +51,10 @@ Any static host works. Examples:
 
 ## Features
 
+- Product detail view with a spec sheet per manufacturing type (material, size, finish, attachment, packaging, personalization, minimum and lead time) and the 6-step "how it's made" process. Specs live in `js/specs.js`; each item points at a type via `sp:`.
+- Mexican-Spanish register (tú, pa'l carro, recuerditos, llaverito), layaway vocabulary (apartar, anticipo, liquidar), California sales-tax line, no-returns-on-personalized line.
+- Hometown selector ("¿De dónde eres?") that pre-selects state variants and shows "De Jalisco pa'l mundo"; "Compártelo con tu comadre" WhatsApp share.
+- Seasonal "order by" banner computed from `seasons` and `leadDays` in config (Guadalupe, Reyes, 10 de mayo…).
 - Spanish by default, English and Chinese toggles (remembered; `#en` or `#zh` in the URL forces a language).
 - 6 categories, 48 SKUs: *Personalizado* (made to order, 3–4 weeks) and *En stock* (ships 1–2 days).
 - Per-item personalization text, variant pickers (state, color), minimum quantities.

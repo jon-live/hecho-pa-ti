@@ -41,6 +41,26 @@ window.HPT_CONFIG = {
   // Must match SETTINGS.token in backend/apps-script/Code.gs.
   formToken: "hpt-2026",
 
+  // Public site URL (used by the share button).
+  siteUrl: "https://tienda.lgcy.ink",
+  // Promise shown in the trust block. Keep it only if you can keep it.
+  replyTime: "1 hora",
+  // Upcoming occasions for the "order by" banner. Cutoff = date minus leadDays.
+  leadDays: 42,
+  seasons: [
+    { d: "2026-12-12", es: "Virgencita de Guadalupe", en: "Our Lady of Guadalupe", zh: "瓜达卢佩圣母日" },
+    { d: "2027-01-06", es: "Día de Reyes", en: "Three Kings Day", zh: "三王节" },
+    { d: "2027-02-14", es: "Día del Amor y la Amistad", en: "Valentine's Day", zh: "情人节" },
+    { d: "2027-04-30", es: "Día del Niño", en: "Children's Day", zh: "儿童节" },
+    { d: "2027-05-10", es: "Día de las Madres", en: "Mother's Day (México)", zh: "母亲节（墨西哥）" },
+    { d: "2027-06-20", es: "Día del Padre", en: "Father's Day", zh: "父亲节" },
+    { d: "2027-09-15", es: "Fiestas Patrias", en: "Mexican Independence", zh: "墨西哥独立日" },
+    { d: "2027-11-01", es: "Día de Muertos", en: "Día de Muertos", zh: "亡灵节" },
+    { d: "2027-12-12", es: "Virgencita de Guadalupe", en: "Our Lady of Guadalupe", zh: "瓜达卢佩圣母日" }
+  ],
+  // Mexican states for the hometown selector and state-variant products.
+  states: ["Aguascalientes","Baja California","Chiapas","Chihuahua","CDMX","Colima","Durango","Guanajuato","Guerrero","Hidalgo","Jalisco","Estado de México","Michoacán","Morelos","Nayarit","Nuevo León","Oaxaca","Puebla","Querétaro","San Luis Potosí","Sinaloa","Sonora","Tabasco","Tamaulipas","Tlaxcala","Veracruz","Yucatán","Zacatecas"],
+
   // Instagram / TikTok handles (optional; leave "" to hide).
   instagram: "hechopati",
   tiktok: "hechopati",

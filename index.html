@@ -30,8 +30,13 @@
 <section class="hero" id="top"><div class="wrap">
   <h1 data-i="h1">Hecho pa' tu casa, tu carro y tu <em>fiesta</em>.</h1>
   <p data-i="sub"></p>
-  <div class="trust"><span data-i="t1"></span><span data-i="t2"></span><span data-i="t3"></span></div>
+  <div class="trust"><span data-i="trust1"></span><span data-i="trust2"></span><span data-i="trust3"></span><span data-i="trust4"></span></div>
+  <div class="herorow">
+    <label class="state"><span data-i="stateq"></span><select id="state"></select></label>
+    <a class="btn wa small" id="share" href="#" target="_blank" rel="noopener" data-i="share"></a>
+  </div>
 </div></section>
+<section class="season" id="season" hidden><div class="wrap"><strong data-i="seasonh"></strong><div id="seasonlist"></div></div></section>
 
 <nav class="cats" aria-label="Categorías"><div class="wrap" id="catnav"></div><div class="msearch"><input id="qm" type="search" data-p="search" placeholder="Buscar…" autocomplete="off"></div></nav>
 
@@ -44,6 +49,13 @@
 </div></section>
 
 <main id="main"></main>
+
+<section class="taller" id="taller"><div class="wrap">
+  <div class="tallerbox">
+    <div><h2 data-i="tallerh"></h2><p data-i="tallerp"></p></div>
+    <ul><li data-i="ta"></li><li data-i="tb"></li><li data-i="tc"></li><li data-i="td"></li></ul>
+  </div>
+</div></section>
 
 <section class="wish" id="pedido"><div class="wrap">
   <div class="wishbox">
@@ -73,6 +85,7 @@
 <footer><div class="wrap">
   <div><strong>Hecho Pa' Ti</strong> · <span data-i="foot1"></span></div>
   <div data-i="foot2"></div>
+  <div data-i="tax"></div>
   <div data-i="foot3"></div>
   <div class="social" id="social"></div>
 </div></footer>
@@ -83,7 +96,7 @@
     <header><h2 id="carttitle" data-i="cart">Carrito</h2><button class="x" id="closecart" aria-label="Cerrar / Close">×</button></header>
     <div class="lines" id="lines"></div>
     <form class="checkout" id="form">
-      <div class="notice"><strong data-i="preh"></strong><p data-i="prep"></p></div>
+      <div class="notice"><strong data-i="preh"></strong><p data-i="apart"></p><p data-i="prep"></p><p class="small" data-i="nochange"></p></div>
       <div class="sumrow"><span data-i="subtotal"></span><span id="subtotal">$0</span></div>
       <div class="sumrow" id="shiprow"><span data-i="shipping"></span><span id="ship">$0</span></div>
       <div class="total"><span data-i="total">Total</span><span id="total">$0</span></div>
@@ -101,6 +114,7 @@
       <button class="btn wa" type="submit" data-i="send"></button>
       <div class="acts"><button class="btn ghost" type="button" id="mail" data-i="mail"></button><button class="btn ghost" type="button" id="copy" data-i="copy"></button></div>
       <div class="wa-line"><span data-i="orwa"></span><code id="wadisplay"></code></div>
+      <p class="small muted" data-i="tax"></p>
     </form>
     <div class="done" id="done" hidden>
       <h3 data-i="sent"></h3>
@@ -111,7 +125,35 @@
   </aside>
 </div>
 
+<div id="pmroot" hidden>
+  <div class="scrim" id="pmscrim"></div>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="pmtitle">
+    <button class="x" id="pmclose" aria-label="Cerrar / Close">×</button>
+    <div class="pmgrid">
+      <div class="pmimg" id="pmimg"></div>
+      <div class="pmbody">
+        <span class="pmtag" id="pmtag"></span>
+        <h3 id="pmtitle"></h3>
+        <p id="pmdesc"></p>
+        <dl class="specs" id="pmspecs"></dl>
+        <details class="howmade" id="pmhow"><summary data-i="howmade"></summary><ol id="pmsteps"></ol></details>
+        <form id="pmform">
+          <select id="pmvariant" hidden></select>
+          <input id="pmperso" maxlength="60" hidden>
+          <div class="pmrow">
+            <label class="qty"><span data-i="qty"></span><input id="pmqty" type="number" min="1" value="1" inputmode="numeric"></label>
+            <span class="price" id="pmprice"></span>
+          </div>
+          <button class="btn" type="submit" data-i="addq"></button>
+          <p class="small muted" id="pmmin"></p>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="js/config.js"></script>
+<script src="js/specs.js"></script>
 <script src="js/i18n.js"></script>
 <script src="js/catalog.js"></script>
 <script src="js/app.js"></script>
