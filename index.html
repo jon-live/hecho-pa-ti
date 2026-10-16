@@ -22,9 +22,9 @@
     <span><span class="name">Hecho Pa' Ti</span><small data-i="tag">Diseñado por mexicanos, con tu nombre</small></span>
   </a>
   <div class="spacer"></div>
-  <label class="search"><span aria-hidden="true">🔍</span><input id="q" type="search" data-p="search" placeholder="Buscar…" autocomplete="off"></label>
+  <label class="search"><span aria-hidden="true">🔍</span><input id="q" type="search" data-p="search" placeholder="Buscar…" autocomplete="off" aria-label="Buscar"></label>
   <div class="lang" role="group" aria-label="Idioma / Language"><button id="es" aria-pressed="true">ES</button><button id="en" aria-pressed="false">EN</button><button id="zh" aria-pressed="false">中文</button></div>
-  <button class="cartbtn" id="opencart" aria-haspopup="dialog"><span data-i="cart">Carrito</span><b id="count">0</b></button>
+  <button class="cartbtn" id="opencart" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 8V6a3 3 0 0 1 6 0v2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span data-i="cart">Carrito</span><b id="count">0</b></button>
 </div></header>
 
 <section class="hero" id="top"><div class="wrap">
@@ -38,7 +38,8 @@
 </div></section>
 <section class="season" id="season" hidden><div class="wrap"><strong data-i="seasonh"></strong><div id="seasonlist"></div></div></section>
 
-<nav class="cats" aria-label="Categorías"><div class="wrap" id="catnav"></div><div class="msearch"><input id="qm" type="search" data-p="search" placeholder="Buscar…" autocomplete="off"></div></nav>
+<nav class="cats" aria-label="Categorías"><div class="wrap" id="catnav"></div></nav>
+<div class="msearch wrap"><input id="qm" type="search" data-p="search" placeholder="Buscar…" autocomplete="off" aria-label="Buscar"></div>
 
 <section class="how"><div class="wrap">
   <div class="steps">
@@ -62,7 +63,7 @@
     <h2 data-i="wish"></h2>
     <p data-i="wishp"></p>
     <form id="wishform" novalidate>
-      <input id="wdesc" data-p="wdesc" maxlength="200" required>
+      <textarea id="wdesc" data-p="wdesc" maxlength="200" rows="2" required></textarea>
       <input id="wlink" data-p="wlink" type="url" inputmode="url" autocomplete="off">
       <div class="two"><input id="wqty" data-p="wqty" type="number" min="1" inputmode="numeric"><input id="wemail" data-p="email" type="email" autocomplete="email" required></div>
       <div class="two"><input id="wname" data-p="name" autocomplete="name"><input id="wphone" data-p="phone" inputmode="tel" autocomplete="tel"></div>

@@ -104,7 +104,7 @@
     const o = it.opt, name = nameOf(it), desc = descOf(it);
     const img = `assets/${it.id}.jpg`;
     return `<article class="card ${it.kind === "c" ? "custom" : ""}" data-id="${it.id}">
-      <div class="tile ${it.cat.tile}" data-tag="${it.kind === "c" ? t("custom") : t("stock")}" data-sample="${t("sample")}">
+      <div class="tile ${it.cat.tile}" data-tag="${it.kind === "c" ? t("custom") : t("stock")}" data-sample="${t(it.kind === "c" ? "sample" : "refphoto")}">
         <img src="${img}" alt="" loading="lazy" onerror="this.remove()" onload="this.parentNode.classList.add('hasimg')">${esc(name)}</div>
       <div class="info">
         <h3>${esc(name)}</h3><p>${esc(desc)}</p>
@@ -123,12 +123,14 @@
     return `<select class="${cls}" aria-label="${t("variant")}"><option value="" disabled ${st ? "" : "selected"}>${t("variant")}…</option>${opts.join("")}</select>`;
   }
   // ── product modal ──────────────────────────────────────────
-  let pmItem = null;
+  let pmItem = null, lastFocus = null;
+  const lockScroll = () => document.body.classList.toggle("locked", !$("#pmroot").hidden || !$("#cartroot").hidden);
+  function restoreFocus() { if (lastFocus && document.contains(lastFocus)) lastFocus.focus({ preventScroll: true }); lastFocus = null; }
   function openProduct(id) {
     const it = ITEMS[id]; if (!it) return; pmItem = it;
     const o = it.opt, sp = (SP.types[o.sp] || SP.types.stock || {})[lang] || {}, L = SP.labels[lang] || {};
     const img = `assets/${it.id}.jpg`;
-    const box = $("#pmimg"); box.className = "pmimg " + it.cat.tile; box.setAttribute("data-sample", t("sample"));
+    const box = $("#pmimg"); box.className = "pmimg " + it.cat.tile; box.setAttribute("data-sample", t(it.kind === "c" ? "sample" : "refphoto"));
     box.innerHTML = `<img src="${img}" alt="" onerror="this.remove()" onload="this.parentNode.classList.add('hasimg')">${esc(nameOf(it))}`;
     $("#pmtag").textContent = it.kind === "c" ? (L.made || t("custom")) : (L.stockt || t("stock"));
     $("#pmtitle").textContent = nameOf(it); $("#pmdesc").textContent = descOf(it);
@@ -140,10 +142,11 @@
     const q = $("#pmqty"); q.min = o.min || 1; q.value = o.min || 1;
     $("#pmmin").textContent = o.min ? t("min", { n: o.min }) : "";
     updatePmPrice();
-    $("#pmroot").hidden = false; $("#pmclose").focus();
+    lastFocus = document.activeElement;
+    $("#pmroot").hidden = false; lockScroll(); $("#pmclose").focus();
   }
   function updatePmPrice() { if (!pmItem) return; const q = Math.max(1, +$("#pmqty").value || 1); $("#pmprice").innerHTML = `$${pmItem.price * q}<small> · $${pmItem.price}${t("each")}</small>`; }
-  function closeProduct() { $("#pmroot").hidden = true; pmItem = null; }
+  function closeProduct() { $("#pmroot").hidden = true; pmItem = null; lockScroll(); restoreFocus(); }
   function quincePack() {
     const per = CFG.quincePerGuest;
     return `<div class="pack" id="pack"><h3>${t("packh")}</h3><p>${t("packp")}</p>
@@ -186,14 +189,15 @@
     $("#deposit").textContent = "$" + s.deposit;
     $("#rest").textContent = "$" + s.rest;
     $("#count").textContent = s.qty;
+    $("#opencart").setAttribute("aria-label", `${t("cart")} (${s.qty})`);
   }
   function addLine(key, line, q) {
     const l = cart[key] || Object.assign({ q: 0 }, line);
     l.q += q;
     if (l.q <= 0) delete cart[key]; else cart[key] = l;
-    save(); renderCart();
-    const b = $("#opencart"); b.classList.remove("bump"); void b.offsetWidth; b.classList.add("bump");
+    save(); renderCart(); bump();
   }
+  function bump() { const b = $("#opencart"); b.classList.remove("bump"); void b.offsetWidth; b.classList.add("bump"); }
   function addProduct(it, variant, perso, qty) {
     const key = [it.id, variant, perso].join("|");
     const q = qty || (it.opt.min && !cart[key] ? it.opt.min : 1);
@@ -242,7 +246,11 @@
   }
   function resetDone() { $("#form").hidden = false; $("#lines").hidden = false; $("#done").hidden = true; }
   function toast(m) { const d = document.createElement("div"); d.className = "toast"; d.textContent = m; document.body.appendChild(d); setTimeout(() => d.remove(), 2400); }
-  function openCart(o) { $("#cartroot").hidden = !o; if (o) $("#closecart").focus(); }
+  function openCart(o) {
+    if (o && $("#cartroot").hidden) lastFocus = document.activeElement;
+    $("#cartroot").hidden = !o; lockScroll();
+    if (o) $("#closecart").focus(); else restoreFocus();
+  }
 
   // ── events ──────────────────────────────────────────────────
   document.addEventListener("click", e => {
@@ -257,7 +265,7 @@
       const who = ($("#pkname").value || "").trim();
       const key = ["quince-pack", n, ty, who].join("|");
       cart[key] = { item: "quince-pack", kind: "c", q: 1, price: n * CFG.quincePerGuest, pack: { n, ty }, perso: who };
-      save(); renderCart(); toast(t("added")); return;
+      save(); renderCart(); bump(); toast(t("added")); return;
     }
     if (b.id === "opencart") { openCart(true); return; }
     if (b.id === "closecart") { openCart(false); return; }
@@ -334,5 +342,10 @@
     document.querySelectorAll("#catnav a").forEach(a => a.classList.toggle("on", a.getAttribute("href") === "#" + cur));
   }, { passive: true });
 
-  load(); render();
+  // Keep the sticky category bar right under the header, whatever its height.
+  const hdr = document.querySelector("header.bar");
+  const setHdr = () => document.documentElement.style.setProperty("--hdr", hdr.offsetHeight + "px");
+  if (window.ResizeObserver) new ResizeObserver(setHdr).observe(hdr); else window.addEventListener("resize", setHdr);
+
+  load(); render(); setHdr();
 })();

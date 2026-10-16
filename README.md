@@ -30,8 +30,8 @@ python3 -m http.server 8080
    - `formEndpoint`: where orders and wishlist requests are stored. Follow **[backend/apps-script/README.md](backend/apps-script/README.md)** to set up a private Google Sheet that receives them (write-only from the site) and emails you and the customer. Takes about 5 minutes. Formspree-style endpoints also work.
 2. **`js/catalog.js`** — edit products, prices, variants and minimum quantities. Each item is one line.
 3. **Photos** — drop a square JPG at `assets/<category>-<index>.jpg` (e.g. `assets/fe-0.jpg` is the first item under *Fe y Protección*). Items without a photo show a colored tile with the product name.
-   - The 16 photos currently in `assets/` are unbranded samples cropped from the Winstone catalog and are labeled "Muestra del acabado" on the card: they show the manufacturing finish (enamel, 3D metal, soft PVC), not the final design. Replace each with the real render when Winstone sends it, and the label disappears only if you also remove `data-sample` in `js/app.js`.
-   - Stock items (tortilla press, piñata, sarape…) have no photo yet; use your own shots or the supplier listing photos.
+   - Photos on made-to-order items are unbranded samples cropped from the Winstone catalog, labeled "Muestra del acabado": they show the manufacturing finish (enamel, 3D metal, soft PVC), not the final design. Replace each with the real render when Winstone sends it. Leave out any sample that shows another client's logo, mascot or slogan.
+   - Photos on stock items are supplier listing photos (see `backend/sourcing-taobao.md`), labeled "Foto de referencia". Swap in your own shots when stock arrives.
 4. **`js/i18n.js`** — all UI copy in Spanish, English and Chinese. Chinese product names live at the bottom of `js/catalog.js` (`HPT_CATALOG_ZH`, keyed by item id); any item missing there falls back to English.
 
 ## Where orders go
