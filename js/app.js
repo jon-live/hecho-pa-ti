@@ -3,7 +3,7 @@
   const CFG = window.HPT_CONFIG, T = window.HPT_I18N, CATS = window.HPT_CATALOG;
   const $ = s => document.querySelector(s);
   const LANGS = ["es", "en", "zh"];
-  let lang = "es", cart = {}, query = "";
+  let lang = "es", cart = {}, query = "", curCat = null;
 
   // ── i18n ────────────────────────────────────────────────────
   const VARS = { shipFrom: CFG.shipFrom, d: CFG.stockDays, w: CFG.customWeeks, zelle: CFG.zelle, cashApp: CFG.cashApp, n: CFG.freeShipOver, dp: CFG.depositPercent, aw: CFG.arrivalWeeks, pickup: CFG.pickupPlace, rt: CFG.replyTime, url: CFG.siteUrl };
@@ -86,6 +86,7 @@
 
   function renderCatalog() {
     $("#catnav").innerHTML = CATS.map(c => `<a href="#${c.id}">${esc(catName(c, 0))}</a>`).join("") + `<a href="#pedido">✦ ${esc({ es: "Pídelo", en: "Ask for it", zh: "告诉我们" }[lang])}</a>`;
+    curCat = null;
     let any = false;
     $("#main").innerHTML = CATS.map(c => {
       const items = c.items.map((_, i) => ITEMS[c.id + "-" + i]).filter(matches);
@@ -190,6 +191,8 @@
     $("#rest").textContent = "$" + s.rest;
     $("#count").textContent = s.qty;
     $("#opencart").setAttribute("aria-label", `${t("cart")} (${s.qty})`);
+    $("#barcount").textContent = s.qty; $("#bartotal").textContent = "$" + s.total + " →";
+    $("#cartbar").hidden = !s.qty; document.body.classList.toggle("hasbar", s.qty > 0);
   }
   function addLine(key, line, q) {
     const l = cart[key] || Object.assign({ q: 0 }, line);
@@ -267,7 +270,7 @@
       cart[key] = { item: "quince-pack", kind: "c", q: 1, price: n * CFG.quincePerGuest, pack: { n, ty }, perso: who };
       save(); renderCart(); bump(); toast(t("added")); return;
     }
-    if (b.id === "opencart") { openCart(true); return; }
+    if (b.id === "opencart" || b.id === "cartbar") { openCart(true); return; }
     if (b.id === "closecart") { openCart(false); return; }
     if (b.dataset.d) { addLine(b.dataset.k, cart[b.dataset.k], +b.dataset.d); return; }
     if (b.id === "again") { resetDone(); openCart(false); return; }
@@ -339,7 +342,12 @@
   window.addEventListener("scroll", () => {
     let cur = "";
     CATS.forEach(c => { const s = document.getElementById(c.id); if (s && s.getBoundingClientRect().top < 140) cur = c.id; });
-    document.querySelectorAll("#catnav a").forEach(a => a.classList.toggle("on", a.getAttribute("href") === "#" + cur));
+    if (cur === curCat) return; curCat = cur;
+    document.querySelectorAll("#catnav a").forEach(a => {
+      const on = a.getAttribute("href") === "#" + cur; a.classList.toggle("on", on);
+      // keep the active chip visible in the swipeable bar
+      if (on) { const nav = $("#catnav"); nav.scrollTo({ left: a.offsetLeft - nav.clientWidth / 2 + a.offsetWidth / 2, behavior: "smooth" }); }
+    });
   }, { passive: true });
 
   // Keep the sticky category bar right under the header, whatever its height.
