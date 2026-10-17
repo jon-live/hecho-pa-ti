@@ -21,7 +21,7 @@ var SETTINGS = {
   // Payment handles shown in the customer confirmation.
   zelle: "pedidos@casanopal.shop",
   cashApp: "$CasaNopal",
-  whatsappDisplay: "+1 (555) 656-1422",
+  whatsappDisplay: "+1 (510) 813-2352",
   pickupPlace: "San José, CA",
   arrivalWeeks: "3–5",
   // Send the customer an automatic confirmation email?

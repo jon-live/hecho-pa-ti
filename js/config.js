@@ -4,10 +4,9 @@
 // ─────────────────────────────────────────────────────────────
 window.HPT_CONFIG = {
   // WhatsApp number in international format, digits only (no +, spaces or dashes).
-  // Casa Nopal Cloud API number from Majordomo › Studio › Channels. It is a Meta TEST number:
-  // it only reaches registered test recipients until a real number is verified there.
-  whatsapp: "15556561422",
-  whatsappDisplay: "+1 (555) 656-1422",
+  // Casa Nopal's WhatsApp Business App number (the same one shown on the Facebook Page).
+  whatsapp: "15108132352",
+  whatsappDisplay: "+1 (510) 813-2352",
 
   // Where "Enviar por correo" (email order) goes.
   email: "pedidos@casanopal.shop",    // ← REPLACE
@@ -65,6 +64,6 @@ window.HPT_CONFIG = {
 
   // Social handles from Majordomo › Studio › Channels (optional; leave "" to hide).
   instagram: "casanopal.official",
-  facebook: "",                        // Page username or numeric id, e.g. "casanopal" → facebook.com/casanopal
+  facebook: "casanopal.official",      // Page username or numeric id, e.g. "casanopal" → facebook.com/casanopal
   tiktok: "",
 };

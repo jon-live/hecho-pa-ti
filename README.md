@@ -17,7 +17,7 @@ python3 -m http.server 8080
 
 ## Launch checklist (do these before sharing the link)
 
-1. `js/config.js`: WhatsApp number and social handles come from Majordomo › Studio › Casa Nopal › Channels. The WhatsApp number there is still a Meta **test number** (it only reaches registered test recipients): verify a real number in Majordomo first, then copy it here. Also set the email, Zelle / Cash App handles, `replyTime` (only promise what you can keep) and `pickupPlace`.
+1. `js/config.js`: WhatsApp number (Casa Nopal's WhatsApp Business App number, +1 510-813-2352, the same one on the Facebook Page) and social handles (Instagram casanopal.official, Facebook casanopal.official). Also set the email, Zelle / Cash App handles, `replyTime` (only promise what you can keep) and `pickupPlace`.
 2. Google Sheet intake: follow `backend/apps-script/README.md`, paste the `/exec` URL into `formEndpoint`.
 3. Namecheap: CNAME `tienda` → `jon-live.github.io.`, then tick **Enforce HTTPS** in the repo's Pages settings.
 4. Confirm the spec defaults in `js/specs.js` with Winston (sizes, minimums, lead times are industry-standard placeholders).
