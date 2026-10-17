@@ -1,5 +1,5 @@
 /**
- * Hecho Pa' Ti — write-only order & wishlist intake for Google Sheets.
+ * Casa Nopal — write-only order & wishlist intake for Google Sheets.
  *
  * Deploy as a Web App (Deploy → New deployment → Web app):
  *   Execute as:      Me
@@ -17,11 +17,11 @@ var SETTINGS = {
   // Where to notify you. Leave "" to use the account that owns the script.
   ownerEmail: "",
   // Sent to customers as the From name.
-  fromName: "Hecho Pa' Ti",
+  fromName: "Casa Nopal",
   // Payment handles shown in the customer confirmation.
-  zelle: "pedidos@hechopati.com",
-  cashApp: "$HechoPaTi",
-  whatsappDisplay: "+1 (650) 555-0142",
+  zelle: "pedidos@casanopal.shop",
+  cashApp: "$CasaNopal",
+  whatsappDisplay: "+1 (555) 656-1422",
   pickupPlace: "San José, CA",
   arrivalWeeks: "3–5",
   // Send the customer an automatic confirmation email?

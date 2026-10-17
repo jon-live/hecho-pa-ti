@@ -1,18 +1,20 @@
 // ─────────────────────────────────────────────────────────────
-// Hecho Pa' Ti — site configuration
+// Casa Nopal — site configuration
 // Edit this file before publishing. Nothing else needs to change.
 // ─────────────────────────────────────────────────────────────
 window.HPT_CONFIG = {
   // WhatsApp number in international format, digits only (no +, spaces or dashes).
-  whatsapp: "16505550142",            // ← REPLACE with your real number
-  whatsappDisplay: "+1 (650) 555-0142",
+  // Casa Nopal Cloud API number from Majordomo › Studio › Channels. It is a Meta TEST number:
+  // it only reaches registered test recipients until a real number is verified there.
+  whatsapp: "15556561422",
+  whatsappDisplay: "+1 (555) 656-1422",
 
   // Where "Enviar por correo" (email order) goes.
-  email: "pedidos@hechopati.com",     // ← REPLACE
+  email: "pedidos@casanopal.shop",    // ← REPLACE
 
   // Payment handles shown after the customer sends an order.
-  zelle: "pedidos@hechopati.com",
-  cashApp: "$HechoPaTi",
+  zelle: "pedidos@casanopal.shop",   // ← REPLACE
+  cashApp: "$CasaNopal",             // ← REPLACE
 
   // Shipping / lead times (used in copy).
   shipFrom: "California",
@@ -61,7 +63,8 @@ window.HPT_CONFIG = {
   // Mexican states for the hometown selector and state-variant products.
   states: ["Aguascalientes","Baja California","Chiapas","Chihuahua","CDMX","Colima","Durango","Guanajuato","Guerrero","Hidalgo","Jalisco","Estado de México","Michoacán","Morelos","Nayarit","Nuevo León","Oaxaca","Puebla","Querétaro","San Luis Potosí","Sinaloa","Sonora","Tabasco","Tamaulipas","Tlaxcala","Veracruz","Yucatán","Zacatecas"],
 
-  // Instagram / TikTok handles (optional; leave "" to hide).
-  instagram: "hechopati",
-  tiktok: "hechopati",
+  // Social handles from Majordomo › Studio › Channels (optional; leave "" to hide).
+  instagram: "casanopal.official",
+  facebook: "",                        // Page username or numeric id, e.g. "casanopal" → facebook.com/casanopal
+  tiktok: "",
 };

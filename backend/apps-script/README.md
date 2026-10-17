@@ -6,7 +6,7 @@ The site only has the web-app URL. That URL accepts POSTs and returns nothing el
 
 ## Setup (about 5 minutes)
 
-1. Create a new Google Sheet, e.g. **Hecho Pa' Ti — Pedidos**.
+1. Create a new Google Sheet, e.g. **Casa Nopal — Pedidos**.
 2. In the Sheet: **Extensions → Apps Script**. Delete the sample code and paste the contents of `Code.gs`.
 3. Edit the `SETTINGS` block at the top: your email, Zelle / Cash App handles, WhatsApp number, pickup city. Keep `token` in sync with `formToken` in `js/config.js`.
 4. Run `setup` once (pick it in the function dropdown, press ▶). Approve the permissions. This creates the **Orders** and **Wishes** tabs.

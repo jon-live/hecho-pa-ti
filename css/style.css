@@ -1,4 +1,4 @@
-/* Hecho Pa' Ti — styles
+/* Casa Nopal — styles
    Layout: sticky header + sticky category chips; product grid 2-up on phone, 4-up on desktop;
    cart drawer slides in from the right. Colors are tokens on :root with a dark theme. */
 :root{

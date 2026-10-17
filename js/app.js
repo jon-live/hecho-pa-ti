@@ -1,4 +1,4 @@
-/* Hecho Pa' Ti — storefront logic (no build step, no dependencies) */
+/* Casa Nopal — storefront logic (no build step, no dependencies) */
 (function () {
   const CFG = window.HPT_CONFIG, T = window.HPT_I18N, CATS = window.HPT_CATALOG;
   const $ = s => document.querySelector(s);
@@ -69,6 +69,7 @@
     $("#wadisplay").textContent = CFG.whatsappDisplay;
     $("#social").innerHTML = [
       CFG.instagram && `<a href="https://instagram.com/${esc(CFG.instagram)}" target="_blank" rel="noopener">Instagram</a>`,
+      CFG.facebook && `<a href="https://facebook.com/${esc(CFG.facebook)}" target="_blank" rel="noopener">Facebook</a>`,
       CFG.tiktok && `<a href="https://tiktok.com/@${esc(CFG.tiktok)}" target="_blank" rel="noopener">TikTok</a>`,
       `<a href="https://wa.me/${esc(CFG.whatsapp)}" target="_blank" rel="noopener">WhatsApp</a>`
     ].filter(Boolean).join("");
@@ -317,7 +318,7 @@
 
   // ── wishlist ("Pídelo") ─────────────────────────────────────
   function wishText() {
-    return [{ es: "Petición Hecho Pa' Ti", en: "Hecho Pa' Ti request", zh: "Hecho Pa' Ti 需求" }[lang],
+    return [{ es: "Petición Casa Nopal", en: "Casa Nopal request", zh: "Casa Nopal 需求" }[lang],
       `${t("wdesc").split(" (")[0]}: ${$("#wdesc").value.trim()}`,
       `${t("wlink")}: ${$("#wlink").value.trim() || "—"}`,
       `${t("wqty")}: ${$("#wqty").value || "—"}`,

@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────
-// Hecho Pa' Ti — product catalog
+// Casa Nopal — product catalog
 // Each item: [kind, name_es, name_en, desc_es, desc_en, priceUSD, options]
 //   kind: "c" = personalizado / made to order (Winstone OEM, 3–4 weeks)
 //         "s" = en stock / ships in 1–2 days (1688/Taobao stock)

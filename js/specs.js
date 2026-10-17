@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────
-// Hecho Pa' Ti — product spec templates, by manufacturing type.
+// Casa Nopal — product spec templates, by manufacturing type.
 // Each catalog item points at one of these with opt.sp = "<key>".
 // Sizes are standard defaults for each product type; confirm final
 // dimensions with the factory on the digital proof before production.

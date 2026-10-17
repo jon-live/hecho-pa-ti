@@ -1,6 +1,6 @@
-# Hecho Pa' Ti — tienda
+# Casa Nopal — tienda
 
-Static, trilingual (ES / EN / 中文) storefront for **Hecho Pa' Ti**: personalized keepsakes and everyday basics for Mexican families in the U.S. No build step, no backend.
+Static, trilingual (ES / EN / 中文) storefront for **Casa Nopal**: personalized keepsakes and everyday basics for Mexican families in the U.S. No build step, no backend.
 
 **Pre-order model.** Customers add to cart and send the order; checkout tells them it takes a few weeks to arrive, that they only pay a 10% deposit now (Zelle / Cash App), and that we email them to pick up or ship once it lands. Orders go out as a pre-filled WhatsApp message (or email / clipboard), and optionally to a form backend.
 
@@ -17,7 +17,7 @@ python3 -m http.server 8080
 
 ## Launch checklist (do these before sharing the link)
 
-1. `js/config.js`: real WhatsApp number, email, Zelle / Cash App handles, `replyTime` (only promise what you can keep), `pickupPlace`.
+1. `js/config.js`: WhatsApp number and social handles come from Majordomo › Studio › Casa Nopal › Channels. The WhatsApp number there is still a Meta **test number** (it only reaches registered test recipients): verify a real number in Majordomo first, then copy it here. Also set the email, Zelle / Cash App handles, `replyTime` (only promise what you can keep) and `pickupPlace`.
 2. Google Sheet intake: follow `backend/apps-script/README.md`, paste the `/exec` URL into `formEndpoint`.
 3. Namecheap: CNAME `tienda` → `jon-live.github.io.`, then tick **Enforce HTTPS** in the repo's Pages settings.
 4. Confirm the spec defaults in `js/specs.js` with Winston (sizes, minimums, lead times are industry-standard placeholders).
